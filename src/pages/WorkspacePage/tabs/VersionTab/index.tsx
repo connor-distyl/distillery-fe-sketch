@@ -136,49 +136,67 @@ const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
         </button>
       </div>
 
-      {/* Current version info */}
-      <div className="version-section">
-        <h3>Current Version</h3>
-        <table className="version-table">
-          <thead>
-            <tr>
-              <th>Tag</th>
-              <th>System Version</th>
-              <th>Date</th>
-              <th>User</th>
-              <th>Message</th>
-              <th>State</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                {renderTags(currentVersion.tag)}
-              </td>
-              <td>
-                <a href="#" className="commit-hash-link">
-                  {getCommitHash(currentVersion.id)}
-                </a>
-              </td>
-              <td>{currentVersion.date}</td>
-              <td>{renderUserAvatar(currentVersion.userInitials)}</td>
-              <td>{currentVersion.message}</td>
-              <td>{renderStateBadge(currentVersion.state)}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {viewMode === 'list' ? (
+        <>
+          {/* Current version info - only shown in list view */}
+          <div className="version-section">
+            <h3>Current Version</h3>
+            <table className="version-table">
+              <thead>
+                <tr>
+                  <th>Tag</th>
+                  <th>System Version</th>
+                  <th>Date</th>
+                  <th>User</th>
+                  <th>Message</th>
+                  <th>State</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    {renderTags(currentVersion.tag)}
+                  </td>
+                  <td>
+                    <a href="#" className="commit-hash-link">
+                      {getCommitHash(currentVersion.id)}
+                    </a>
+                  </td>
+                  <td>{currentVersion.date}</td>
+                  <td>{renderUserAvatar(currentVersion.userInitials)}</td>
+                  <td>{currentVersion.message}</td>
+                  <td>{renderStateBadge(currentVersion.state)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-      {/* Version history */}
-      <div className="version-section">
-        <h3>Version History</h3>
-        {viewMode === 'list' ? (
-          <ListView 
-            versions={versionHistory} 
-            renderStateBadge={renderStateBadge}
-            renderUserAvatar={renderUserAvatar}
-          />
-        ) : (
+          {/* Version history - only shown in list view */}
+          <div className="version-section">
+            <h3>Version History</h3>
+            <ListView 
+              versions={versionHistory} 
+              renderStateBadge={renderStateBadge}
+              renderUserAvatar={renderUserAvatar}
+            />
+          </div>
+
+          {/* Component versions - only shown in list view and for system files */}
+          {isSystemFile && (
+            <ComponentVersions 
+              versions={versionHistory}
+              components={components}
+              componentColumnVisibility={componentColumnVisibility}
+              renderComponentColumnToggle={renderComponentColumnToggle}
+              getComponentVersionData={getComponentVersionData}
+              renderUserAvatar={renderUserAvatar}
+            />
+          )}
+        </>
+      ) : (
+        // Tree view - only shown in tree mode
+        <div className="version-section">
+          <h3>Source Tree</h3>
           <TreeView 
             versions={versionHistory} 
             renderStateBadge={renderStateBadge}
@@ -186,19 +204,7 @@ const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
             branches={branches}
             getBranchColor={getBranchColor}
           />
-        )}
-      </div>
-
-      {/* Component versions (only for system files) */}
-      {isSystemFile && (
-        <ComponentVersions 
-          versions={versionHistory}
-          components={components}
-          componentColumnVisibility={componentColumnVisibility}
-          renderComponentColumnToggle={renderComponentColumnToggle}
-          getComponentVersionData={getComponentVersionData}
-          renderUserAvatar={renderUserAvatar}
-        />
+        </div>
       )}
     </div>
   );
