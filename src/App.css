@@ -1,24 +1,174 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
 }
 
 .app-container {
   display: flex;
-  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  overflow: auto;
+}
+
+/* Workspace specific styles */
+.page-container {
+  background-color: #f5f5f5;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.two-column-layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding-left: 80px; /* Match sidebar width */
+}
+
+/* Left column - File Explorer */
+.left-column {
+  background-color: #f0f0f0;
+  border-right: 1px solid #ddd;
+  height: 100%;
+  min-width: 100px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  transition: width 0.1s ease;
+}
+
+.file-explorer-container {
+  padding: 10px;
+}
+
+.file-explorer-container h2 {
+  margin-top: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Explorer icons */
+.explorer-icons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding-top: 5px;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 60vh;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  color: #333;
+  transition: background-color 0.2s;
+}
+
+.icon-button:hover {
+  background-color: #e0e0e0;
+}
+
+.icon-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.folder-btn {
+  color: #555;
+}
+
+.chat-btn {
+  color: #555;
+}
+
+.file-explorer {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.file-explorer li {
+  margin: 2px 0;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  color: #000; /* Make all text black */
+}
+
+.file-item:hover {
+  background-color: #e0e0e0;
+}
+
+.folder-icon {
+  margin-right: 5px;
+  font-size: 0.8rem;
+  width: 12px;
+  display: inline-block;
+  color: #000; /* Make folder icons black */
+}
+
+.item-name {
+  font-size: 0.9rem;
+  color: #000; /* Make item names black */
+}
+
+.folder {
+  font-weight: 500;
+  color: #000; /* Make folder text black */
+}
+
+.file {
+  padding-left: 17px;
+  color: #000; /* Make file text black */
+}
+
+.file-explorer ul {
+  list-style-type: none;
+  padding-left: 15px;
+  margin: 0;
+}
+
+/* Column resizer */
+.column-resizer {
+  width: 5px;
+  background-color: #ddd;
+  cursor: col-resize;
+  height: 100%;
+}
+
+.column-resizer:hover, 
+.column-resizer:active {
+  background-color: #aaa;
+}
+
+/* Right column - Content */
+.right-column {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
 }
 
 h1 {
-  color: #646cff;
+  color: #333;
   margin-bottom: 1rem;
 }
 
@@ -33,7 +183,7 @@ p {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   width: 100%;
-  max-width: 500px;
+  max-width: 800px;
 }
 
 .logo {
