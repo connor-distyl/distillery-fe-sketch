@@ -1,49 +1,12 @@
 import React from 'react';
 import { FaTag, FaCalendarAlt, FaUser, FaComment } from 'react-icons/fa';
-
-// Define types inline to avoid import issues
-type VersionState = 'Draft' | 'In Review' | 'Published';
-
-interface Version {
-  id: string;
-  tag: string;
-  name: string;
-  date: string;
-  user: string;
-  userInitials: string;
-  message: string;
-  state: VersionState;
-  parentId?: string;
-  branch?: string;
-}
-
-interface Component {
-  id: string;
-  name: string;
-  type: string;
-}
-
-interface ComponentVersionData {
-  componentId: string;
-  tag: string;
-  date: string;
-  user: string;
-  message: string;
-}
-
-interface ComponentColumnVisibility {
-  tag: boolean;
-  date: boolean;
-  user: boolean;
-  message: boolean;
-}
-
-// Utility function to generate a commit hash from a version ID
-const getCommitHash = (versionId: string): string => {
-  // Create a deterministic hash-like string based on the version ID
-  const baseHash = versionId.replace(/\D/g, '');
-  return `${baseHash}a7e8f9c0d1b2e3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5`.substring(0, 8);
-};
+import { 
+  Version, 
+  Component, 
+  ComponentColumnVisibility, 
+  ComponentVersionData,
+  getCommitHash
+} from '../../../../data/versions';
 
 interface ComponentVersionsProps {
   versions: Version[];

@@ -1,19 +1,15 @@
 import React from 'react';
 import { FaTag } from 'react-icons/fa';
-import { Version, VersionState, getCommitHash } from './types';
+import { Version, VersionState, getCommitHash } from '../../../../data/versions';
 
 interface ListViewProps {
-  currentVersion: Version;
   versions: Version[];
-  isSystemFile: boolean;
   renderStateBadge: (state: VersionState) => JSX.Element | null;
   renderUserAvatar: (initials: string) => JSX.Element | null;
 }
 
 const ListView: React.FC<ListViewProps> = ({
-  currentVersion,
   versions,
-  isSystemFile,
   renderStateBadge,
   renderUserAvatar,
 }) => {
@@ -37,75 +33,38 @@ const ListView: React.FC<ListViewProps> = ({
   };
 
   return (
-    <>
-      {/* Current Version Section */}
-      <div className="version-section">
-        <h3>Current Version</h3>
-        <table className="version-table">
-          <thead>
-            <tr>
-              <th>Tag</th>
-              <th>System Version</th>
-              <th>Date</th>
-              <th>User</th>
-              <th>Message</th>
-              <th>State</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
+    <div className="version-table-container">
+      <table className="version-table">
+        <thead>
+          <tr>
+            <th>Tag</th>
+            <th>System Version</th>
+            <th>Date</th>
+            <th>User</th>
+            <th>Message</th>
+            <th>State</th>
+          </tr>
+        </thead>
+        <tbody>
+          {versions.map((version) => (
+            <tr key={version.id}>
               <td>
-                {renderTags(currentVersion.tag)}
+                {renderTags(version.tag)}
               </td>
               <td>
                 <a href="#" className="commit-hash-link">
-                  {getCommitHash(currentVersion.id)}
+                  {getCommitHash(version.id)}
                 </a>
               </td>
-              <td>{currentVersion.date}</td>
-              <td>{renderUserAvatar(currentVersion.userInitials)}</td>
-              <td>{currentVersion.message}</td>
-              <td>{renderStateBadge(currentVersion.state)}</td>
+              <td>{version.date}</td>
+              <td>{renderUserAvatar(version.userInitials)}</td>
+              <td>{version.message}</td>
+              <td>{renderStateBadge(version.state)}</td>
             </tr>
-          </tbody>
-        </table>
-      </div>
-
-      {/* Version History Section */}
-      <div className="version-section">
-        <h3>Version History</h3>
-        <table className="version-table">
-          <thead>
-            <tr>
-              <th>Tag</th>
-              <th>System Version</th>
-              <th>Date</th>
-              <th>User</th>
-              <th>Message</th>
-              <th>State</th>
-            </tr>
-          </thead>
-          <tbody>
-            {versions.map((version) => (
-              <tr key={version.id}>
-                <td>
-                  {renderTags(version.tag)}
-                </td>
-                <td>
-                  <a href="#" className="commit-hash-link">
-                    {getCommitHash(version.id)}
-                  </a>
-                </td>
-                <td>{version.date}</td>
-                <td>{renderUserAvatar(version.userInitials)}</td>
-                <td>{version.message}</td>
-                <td>{renderStateBadge(version.state)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
