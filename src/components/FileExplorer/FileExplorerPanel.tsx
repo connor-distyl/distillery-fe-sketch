@@ -18,13 +18,13 @@ const FileExplorerPanel = ({
     {
       id: '6',
       name: 'Tower Bot',
-      type: 'folder',
+      type: 'system',
       expanded: true,
       children: [
         {
           id: '2',
           name: 'Tower Bot',
-          type: 'file'
+          type: 'system'
         },
         {
           id: '3',
@@ -35,12 +35,12 @@ const FileExplorerPanel = ({
             {
               id: '4',
               name: 'Order',
-              type: 'file'
+              type: 'routine'
             },
             {
               id: '5',
               name: 'Gen Info',
-              type: 'file'
+              type: 'routine'
             }
           ]
         },
@@ -53,12 +53,12 @@ const FileExplorerPanel = ({
             {
               id: '7',
               name: 'Shared',
-              type: 'file'
+              type: 'prompt'
             },
             {
               id: '9',
               name: 'Tone',
-              type: 'file'
+              type: 'prompt'
             }
           ]
         },
@@ -71,24 +71,24 @@ const FileExplorerPanel = ({
             {
               id: '11',
               name: 'Device lookup',
-              type: 'file'
+              type: 'tool'
             },
             {
               id: '12',
               name: 'Gen Info',
-              type: 'file'
+              type: 'tool'
             }
           ]
         },
         {
           id: '13',
           name: 'Guardrails',
-          type: 'folder'
+          type: 'guardrail'
         },
         {
           id: '14',
           name: 'Code',
-          type: 'folder'
+          type: 'code'
         }
       ]
     }
@@ -100,7 +100,7 @@ const FileExplorerPanel = ({
     setFileData(prevData => {
       const toggleItem = (items: FileItem[]): FileItem[] => {
         return items.map(item => {
-          if (item.id === id) {
+          if (item.id === id && item.children) {
             return { ...item, expanded: !item.expanded };
           }
           if (item.children) {
@@ -117,7 +117,7 @@ const FileExplorerPanel = ({
     // Find the file ID by name
     const findFileId = (items: FileItem[]): string | undefined => {
       for (const item of items) {
-        if (item.type === 'file' && item.name === fileName) {
+        if (item.type !== 'folder' && item.name === fileName) {
           return item.id;
         }
         if (item.children) {

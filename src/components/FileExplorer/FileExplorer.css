@@ -40,6 +40,31 @@
   align-items: center;
 }
 
+/* File type specific icon colors */
+.system-icon {
+  color: #1890ff; /* Blue */
+}
+
+.routine-icon {
+  color: #52c41a; /* Green */
+}
+
+.prompt-icon {
+  color: #722ed1; /* Purple */
+}
+
+.tool-icon {
+  color: #fa8c16; /* Orange */
+}
+
+.guardrail-icon {
+  color: #f5222d; /* Red */
+}
+
+.code-icon {
+  color: #13c2c2; /* Cyan */
+}
+
 .file-name {
   flex: 1;
   white-space: nowrap;
