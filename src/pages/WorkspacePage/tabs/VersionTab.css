@@ -95,4 +95,188 @@
 .state-badge.published {
   background-color: #f6ffed;
   color: #52c41a;
+}
+
+/* Column toggle controls */
+.column-toggles {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+}
+
+.column-toggles h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.toggle-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.column-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.column-toggle:hover {
+  background-color: #f0f0f0;
+}
+
+.column-toggle.active {
+  background-color: #e6f7ff;
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+.column-toggle svg {
+  font-size: 0.8rem;
+}
+
+/* Component type styling */
+.component-type {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.component-type.routine {
+  background-color: #e6f7ff;
+  color: #1890ff;
+}
+
+.component-type.prompt {
+  background-color: #f6ffed;
+  color: #52c41a;
+}
+
+.component-type.tool {
+  background-color: #fff7e6;
+  color: #fa8c16;
+}
+
+.component-type.guardrail {
+  background-color: #fff1f0;
+  color: #f5222d;
+}
+
+.component-type.code {
+  background-color: #f9f0ff;
+  color: #722ed1;
+}
+
+.component-type.system {
+  background-color: #f0f5ff;
+  color: #2f54eb;
+}
+
+/* Component toggles specific styling */
+.component-toggles {
+  margin-top: 10px;
+  background-color: #f0f5ff;
+}
+
+/* Component versions table container */
+.component-versions-table-container {
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+/* Component table specific styling */
+.component-table {
+  margin-bottom: 30px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Component header row styling */
+.component-header-row th {
+  text-align: center;
+  border: 1px solid #eee;
+  border-bottom: none;
+  padding: 12px 8px;
+  background-color: #fafafa;
+}
+
+.component-header {
+  position: relative;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.component-header .component-type {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 0 0 0 4px;
+  font-size: 0.7rem;
+  padding: 2px 5px;
+}
+
+/* Subheader row styling */
+.subheader-row th {
+  font-size: 0.8rem;
+  padding: 8px 6px;
+  text-align: center;
+  border: 1px solid #eee;
+  background-color: #f5f5f5;
+  font-weight: 500;
+}
+
+.subheader {
+  white-space: nowrap;
+}
+
+/* Version column styling */
+.version-column {
+  position: sticky;
+  left: 0;
+  background-color: #f5f5f5;
+  z-index: 1;
+  min-width: 100px;
+}
+
+.version-cell {
+  position: sticky;
+  left: 0;
+  background-color: #f9f9f9;
+  z-index: 1;
+  font-weight: 500;
+}
+
+/* Component row styling */
+.component-row td {
+  text-align: center;
+  padding: 8px 6px;
+  border: 1px solid #eee;
+  white-space: nowrap;
+}
+
+/* Alternating row colors */
+.component-row:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.component-row:hover td {
+  background-color: #f0f7ff;
 } 
