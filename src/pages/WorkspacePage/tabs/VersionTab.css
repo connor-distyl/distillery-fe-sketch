@@ -462,17 +462,19 @@
   align-items: center;
   gap: 15px;
   font-size: 0.8rem;
-  color: #666;
+  color: #000;
 }
 
 .commit-date {
-  color: #666;
+  color: #000;
 }
 
 .commit-user {
   display: flex;
+  color: #000;
 }
 
 .commit-state {
   display: flex;
+  color: #000;
 } 
