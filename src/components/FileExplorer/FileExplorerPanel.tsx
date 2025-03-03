@@ -16,46 +16,33 @@ const FileExplorerPanel = ({
 }: FileExplorerPanelProps) => {
   const [fileData, setFileData] = useState<FileItem[]>([
     {
-      id: '1',
-      name: 'System',
-      type: 'folder',
-      expanded: true,
-      children: [
-        {
-          id: '2',
-          name: 'Tablet 1.0.1',
-          type: 'file'
-        }
-      ]
-    },
-    {
-      id: '3',
-      name: 'Routines',
-      type: 'folder',
-      expanded: true,
-      children: [
-        {
-          id: '4',
-          name: 'Order',
-          type: 'file'
-        },
-        {
-          id: '5',
-          name: 'Gen Info',
-          type: 'file'
-        }
-      ]
-    },
-    {
       id: '6',
       name: 'Tower Bot',
       type: 'folder',
       expanded: true,
       children: [
         {
-          id: '7',
-          name: 'Shared',
+          id: '2',
+          name: 'Tower Bot',
           type: 'file'
+        },
+        {
+          id: '3',
+          name: 'Routines',
+          type: 'folder',
+          expanded: true,
+          children: [
+            {
+              id: '4',
+              name: 'Order',
+              type: 'file'
+            },
+            {
+              id: '5',
+              name: 'Gen Info',
+              type: 'file'
+            }
+          ]
         },
         {
           id: '8',
@@ -63,6 +50,11 @@ const FileExplorerPanel = ({
           type: 'folder',
           expanded: true,
           children: [
+            {
+              id: '7',
+              name: 'Shared',
+              type: 'file'
+            },
             {
               id: '9',
               name: 'Tone',
