@@ -40,6 +40,16 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onVi
     }
   };
 
+  // Helper function to render commit hash with tag
+  const renderCommitWithTag = (version: Version) => {
+    return (
+      <>
+        <span className="commit-hash">{version.commitHash || 'No hash'}</span>
+        {version.tag && <span className="version-tag-label">{version.tag}</span>}
+      </>
+    );
+  };
+
   return (
     <div className="version-selector">
       <button className="version-selector-button" onClick={toggleDropdown}>
@@ -47,7 +57,12 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onVi
         <span className="version-text">
           {activeTab === 'tags' 
             ? selectedVersion.tag 
-            : (selectedVersion.commitHash || 'No hash')}
+            : (
+              <>
+                <span className="commit-hash">{selectedVersion.commitHash || 'No hash'}</span>
+                {selectedVersion.tag && <span className="version-tag-label-small">{selectedVersion.tag}</span>}
+              </>
+            )}
         </span>
         {isOpen ? <FaChevronUp className="chevron" /> : <FaChevronDown className="chevron" />}
       </button>
@@ -72,19 +87,23 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onVi
           <div className="version-list">
             {activeTab === 'tags' ? (
               // Display only versions with tags
-              tagsVersions.map((version) => (
-                <div 
-                  key={version.id} 
-                  className={`version-item ${selectedVersion.id === version.id ? 'selected' : ''}`}
-                  onClick={() => handleVersionSelect(version)}
-                >
-                  <FaTag className="version-icon" />
-                  <div className="version-info">
-                    <div className="version-tag">{version.tag}</div>
-                    <div className="version-message">{version.message}</div>
+              tagsVersions.length > 0 ? (
+                tagsVersions.map((version) => (
+                  <div 
+                    key={version.id} 
+                    className={`version-item ${selectedVersion.id === version.id ? 'selected' : ''}`}
+                    onClick={() => handleVersionSelect(version)}
+                  >
+                    <FaTag className="version-icon" />
+                    <div className="version-info">
+                      <div className="version-tag">{version.tag}</div>
+                      <div className="version-message">{version.message}</div>
+                    </div>
                   </div>
-                </div>
-              ))
+                ))
+              ) : (
+                <div className="no-versions-message">No tagged versions available</div>
+              )
             ) : (
               // Display all versions with commit hash first
               displayVersions.map((version) => (
@@ -95,9 +114,8 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onVi
                 >
                   <FaCodeBranch className="version-icon" />
                   <div className="version-info">
-                    <div className="version-tag">
-                      {version.commitHash || 'No hash'} 
-                      {version.tag && <span className="version-tag-label">{version.tag}</span>}
+                    <div className="version-hash-tag">
+                      {renderCommitWithTag(version)}
                     </div>
                     <div className="version-message">{version.message}</div>
                   </div>
@@ -106,10 +124,8 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onVi
             )}
           </div>
 
+          {/* Always show the View All button */}
           {!showAllVersions && (
-            (activeTab === 'tags' && tagsVersions.length > 5) || 
-            (activeTab === 'versions' && versionHistory.length > 5)
-          ) && (
             <button 
               className="view-all-button"
               onClick={handleViewAllClick}

@@ -126,6 +126,21 @@
   text-overflow: ellipsis;
 }
 
+.version-hash-tag {
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.commit-hash {
+  color: #e0e0e0;
+  font-family: monospace;
+}
+
 .version-tag-label {
   display: inline-block;
   margin-left: 8px;
@@ -133,6 +148,18 @@
   background-color: #0078d730;
   border-radius: 3px;
   font-size: 11px;
+  color: #0078d7;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.version-tag-label-small {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 0 4px;
+  background-color: #0078d730;
+  border-radius: 3px;
+  font-size: 10px;
   color: #0078d7;
   white-space: nowrap;
 }
@@ -144,6 +171,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
   margin-top: 2px;
+}
+
+.no-versions-message {
+  padding: 12px;
+  text-align: center;
+  color: #888;
+  font-size: 12px;
+  font-style: italic;
 }
 
 .view-all-button {
