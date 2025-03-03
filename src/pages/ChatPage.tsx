@@ -6,7 +6,7 @@ const ChatPage = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [streaming, setStreaming] = useState(false);
   const [debugMode, setDebugMode] = useState(false);
-  const [project, setProject] = useState('Infobot');
+  const [system, setSystem] = useState('Infobot');
   const [routine, setRoutine] = useState('General Information');
   const [scenario, setScenario] = useState('');
   const [messages, setMessages] = useState([
@@ -60,35 +60,60 @@ const ChatPage = () => {
       </div>
 
       <div className="chat-container">
-        <div className="settings-panel">
-          <div className="settings-header">
-            <button className="icon-button" onClick={toggleSettings}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="3"></circle>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-              </svg>
-            </button>
-            <button className="icon-button" onClick={() => {}}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M23 4v6h-6"></path>
-                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-              </svg>
-            </button>
+        <div className="system-selector">
+          <label>System</label>
+          <div className="select-wrapper">
+            <select value={system} onChange={(e) => setSystem(e.target.value)}>
+              <option value="Infobot">Infobot</option>
+              <option value="Helpdesk">Helpdesk</option>
+              <option value="Customer Service">Customer Service</option>
+            </select>
           </div>
+        </div>
 
-          {showSettings && (
-            <div className="settings-content">
-              <div className="project-selector">
-                <label>Project</label>
-                <div className="select-wrapper">
-                  <select value={project} onChange={(e) => setProject(e.target.value)}>
-                    <option value="Infobot">Infobot</option>
-                    <option value="Helpdesk">Helpdesk</option>
-                    <option value="Customer Service">Customer Service</option>
-                  </select>
-                </div>
+        <div className="controls-center">
+          <button className="icon-button" onClick={toggleSettings}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </button>
+          <button className="icon-button" onClick={() => {}}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M23 4v6h-6"></path>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+            </svg>
+          </button>
+        </div>
+
+        {showSettings && (
+          <div className="settings-content">
+            <div className="toggle-options">
+              <div className="toggle-option">
+                <span>Streaming</span>
+                <label className="toggle-switch">
+                  <input 
+                    type="checkbox" 
+                    checked={streaming} 
+                    onChange={() => setStreaming(!streaming)} 
+                  />
+                  <span className="toggle-slider"></span>
+                </label>
               </div>
+              <div className="toggle-option">
+                <span>Debug Mode</span>
+                <label className="toggle-switch">
+                  <input 
+                    type="checkbox" 
+                    checked={debugMode} 
+                    onChange={() => setDebugMode(!debugMode)} 
+                  />
+                  <span className="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
 
+            <div className="selectors-row">
               <div className="routine-selector">
                 <label>Routine</label>
                 <div className="select-wrapper">
@@ -97,31 +122,6 @@ const ChatPage = () => {
                     <option value="Technical Support">Technical Support</option>
                     <option value="Billing">Billing</option>
                   </select>
-                </div>
-              </div>
-
-              <div className="toggle-options">
-                <div className="toggle-option">
-                  <span>Streaming</span>
-                  <label className="toggle-switch">
-                    <input 
-                      type="checkbox" 
-                      checked={streaming} 
-                      onChange={() => setStreaming(!streaming)} 
-                    />
-                    <span className="toggle-slider"></span>
-                  </label>
-                </div>
-                <div className="toggle-option">
-                  <span>Debug Mode</span>
-                  <label className="toggle-switch">
-                    <input 
-                      type="checkbox" 
-                      checked={debugMode} 
-                      onChange={() => setDebugMode(!debugMode)} 
-                    />
-                    <span className="toggle-slider"></span>
-                  </label>
                 </div>
               </div>
 
@@ -136,8 +136,8 @@ const ChatPage = () => {
                 />
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         <div className="messages-container">
           {messages.map((message, index) => (

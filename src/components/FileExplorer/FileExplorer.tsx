@@ -1,5 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { FaExclamationCircle, FaEdit } from 'react-icons/fa';
 import './FileExplorer.css';
+
+// Define interface for edited settings
+interface EditedSettings {
+  [fileId: string]: boolean;
+}
 
 // File explorer item type
 export interface FileItem {
@@ -15,24 +21,44 @@ interface FileExplorerProps {
   onToggle: (id: string) => void;
   onSelectFile: (fileName: string) => void;
   selectedFileId?: string;
+  editedSettings: EditedSettings;
 }
 
 const FileExplorer: React.FC<FileExplorerProps> = ({ 
   data, 
   onToggle, 
   onSelectFile,
-  selectedFileId 
+  selectedFileId,
+  editedSettings
 }) => {
+  // Debug log for edited settings
+  useEffect(() => {
+    console.log('FileExplorer: Current edited settings:', editedSettings);
+    
+    // Log all edited files
+    Object.entries(editedSettings).forEach(([id, isEdited]) => {
+      if (isEdited) {
+        console.log(`FileExplorer: File with ID ${id} is marked as edited`);
+      }
+    });
+  }, [editedSettings]);
+
   const renderItem = (item: FileItem) => {
     const isFolder = item.type === 'folder';
     const hasChildren = Boolean(item.children && item.children.length > 0);
     const isExpanded = item.expanded;
     const isSelected = selectedFileId === item.id;
+    const isEdited = !!editedSettings[item.id];
+    
+    // Debug log for each item
+    if (isEdited) {
+      console.log(`FileExplorer: Item ${item.name} (ID: ${item.id}) is marked as edited`);
+    }
     
     return (
-      <li key={item.id}>
+      <li key={item.id} className={isEdited ? 'file-item-container-edited' : ''}>
         <div 
-          className={`file-item ${isSelected ? 'selected' : ''}`}
+          className={`file-item ${isSelected ? 'selected' : ''} ${isEdited ? 'edited' : ''}`}
           onClick={() => {
             if (hasChildren) {
               onToggle(item.id);
@@ -94,7 +120,19 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
               )}
             </span>
           )}
-          <span className="file-name">{item.name}</span>
+          <span className={`file-name ${isEdited ? 'edited-text' : ''}`}>
+            {item.name}
+            {isEdited && (
+              <span className="edited-inline-badge">
+                <FaEdit size={12} color="#ff6b00" style={{ marginLeft: '5px' }} />
+              </span>
+            )}
+          </span>
+          {isEdited && (
+            <span className="edited-badge" title="This item has unsaved changes">
+              <FaExclamationCircle size={14} color="#ff6b00" />
+            </span>
+          )}
         </div>
         
         {hasChildren && isExpanded && item.children && (

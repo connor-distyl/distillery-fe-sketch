@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaPencilAlt, FaCog, FaCodeBranch } from 'react-icons/fa';
+import { FaPencilAlt, FaCog, FaCodeBranch, FaExclamationCircle } from 'react-icons/fa';
 import { EditTab, SettingsTab, VersionTab } from './tabs';
 import './ContentPanel.css';
 
@@ -7,9 +7,15 @@ type TabType = 'edit' | 'settings' | 'version';
 
 interface ContentPanelProps {
   selectedFile?: string;
+  isEdited?: boolean;
+  onSettingsChange?: (fileId: string, isEdited: boolean) => void;
 }
 
-const ContentPanel: React.FC<ContentPanelProps> = ({ selectedFile = 'Order' }) => {
+const ContentPanel: React.FC<ContentPanelProps> = ({ 
+  selectedFile = 'Order', 
+  isEdited = false,
+  onSettingsChange
+}) => {
   const [activeTab, setActiveTab] = useState<TabType>('edit');
 
   const renderTabContent = () => {
@@ -17,7 +23,12 @@ const ContentPanel: React.FC<ContentPanelProps> = ({ selectedFile = 'Order' }) =
       case 'edit':
         return <EditTab selectedFile={selectedFile} />;
       case 'settings':
-        return <SettingsTab selectedFile={selectedFile} />;
+        return (
+          <SettingsTab 
+            selectedFile={selectedFile} 
+            onSettingsChange={onSettingsChange}
+          />
+        );
       case 'version':
         return <VersionTab selectedFile={selectedFile} />;
       default:
@@ -28,7 +39,14 @@ const ContentPanel: React.FC<ContentPanelProps> = ({ selectedFile = 'Order' }) =
   return (
     <div className="content-panel">
       <div className="content-header">
-        <h2>{selectedFile}</h2>
+        <h2>
+          {selectedFile}
+          {isEdited && (
+            <span className="content-edited-badge" title="This item has unsaved changes">
+              <FaExclamationCircle size={18} color="#ff6b00" style={{ marginLeft: '10px' }} />
+            </span>
+          )}
+        </h2>
       </div>
       
       <div className="content-tabs">

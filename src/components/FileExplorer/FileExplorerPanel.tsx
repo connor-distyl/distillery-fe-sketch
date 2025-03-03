@@ -3,16 +3,25 @@ import FileExplorer, { FileItem } from './FileExplorer';
 import PanelHeader, { PanelType } from '../common/PanelHeader';
 import './FileExplorerPanel.css';
 
+// Define interface for edited settings
+interface EditedSettings {
+  [fileId: string]: boolean;
+}
+
 type FileExplorerPanelProps = {
   activePanel: PanelType;
   onSwitchPanel: (panel: PanelType) => void;
   onSelectFile: (fileName: string) => void;
+  editedSettings: EditedSettings;
+  selectedFileId?: string;
 }
 
 const FileExplorerPanel = ({ 
   activePanel, 
   onSwitchPanel,
-  onSelectFile
+  onSelectFile,
+  editedSettings,
+  selectedFileId: externalSelectedFileId
 }: FileExplorerPanelProps) => {
   const [fileData, setFileData] = useState<FileItem[]>([
     {
@@ -94,7 +103,10 @@ const FileExplorerPanel = ({
     }
   ]);
 
-  const [selectedFileId, setSelectedFileId] = useState<string | undefined>();
+  const [internalSelectedFileId, setInternalSelectedFileId] = useState<string | undefined>();
+  
+  // Use external selectedFileId if provided, otherwise use internal state
+  const selectedFileId = externalSelectedFileId || internalSelectedFileId;
 
   const handleToggle = (id: string) => {
     setFileData(prevData => {
@@ -129,7 +141,7 @@ const FileExplorerPanel = ({
     };
 
     const fileId = findFileId(fileData);
-    setSelectedFileId(fileId);
+    setInternalSelectedFileId(fileId);
     onSelectFile(fileName);
   };
 
@@ -145,6 +157,7 @@ const FileExplorerPanel = ({
         onToggle={handleToggle} 
         onSelectFile={handleSelectFile}
         selectedFileId={selectedFileId}
+        editedSettings={editedSettings}
       />
     </div>
   );

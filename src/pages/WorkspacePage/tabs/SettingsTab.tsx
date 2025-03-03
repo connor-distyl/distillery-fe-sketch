@@ -1,23 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SettingsTab.css';
 
 interface SettingsTabProps {
   selectedFile: string;
+  onSettingsChange?: (fileId: string, isEdited: boolean) => void;
 }
 
-const SettingsTab: React.FC<SettingsTabProps> = ({ selectedFile }) => {
-  const [metadata, setMetadata] = useState({
+interface MetadataState {
+  name: string;
+  model: string;
+  tools: string;
+  documents: string;
+  originalValues?: {
+    name: string;
+    model: string;
+    tools: string;
+    documents: string;
+  };
+}
+
+const SettingsTab: React.FC<SettingsTabProps> = ({ selectedFile, onSettingsChange }) => {
+  // Initial metadata values (in a real app, these would come from an API or store)
+  const initialMetadata: MetadataState = {
     name: '',
     model: '',
     tools: '',
-    documents: ''
-  });
+    documents: '',
+    originalValues: {
+      name: '',
+      model: '',
+      tools: '',
+      documents: ''
+    }
+  };
+
+  const [metadata, setMetadata] = useState<MetadataState>(initialMetadata);
+  const [isEdited, setIsEdited] = useState(false);
+
+  // When the selected file changes, reset the metadata
+  useEffect(() => {
+    // In a real app, you would fetch the metadata for the selected file here
+    setMetadata(initialMetadata);
+    setIsEdited(false);
+    
+    // Notify parent that this file is not edited
+    if (onSettingsChange) {
+      onSettingsChange(selectedFile, false);
+    }
+  }, [selectedFile]);
 
   const handleInputChange = (field: string, value: string) => {
-    setMetadata({
+    const newMetadata = {
       ...metadata,
       [field]: value
-    });
+    };
+    
+    setMetadata(newMetadata);
+    
+    // Check if any value is different from the original
+    const hasChanges = 
+      newMetadata.name !== (metadata.originalValues?.name || '') ||
+      newMetadata.model !== (metadata.originalValues?.model || '') ||
+      newMetadata.tools !== (metadata.originalValues?.tools || '') ||
+      newMetadata.documents !== (metadata.originalValues?.documents || '');
+    
+    setIsEdited(hasChanges);
+    
+    // Notify parent component about the edit state
+    if (onSettingsChange) {
+      console.log(`SettingsTab: Notifying parent that ${selectedFile} is ${hasChanges ? 'edited' : 'not edited'}`);
+      onSettingsChange(selectedFile, hasChanges);
+    }
   };
 
   return (
