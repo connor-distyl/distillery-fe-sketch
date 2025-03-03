@@ -1,0 +1,98 @@
+.version-tab {
+  padding: 15px 0;
+}
+
+.version-section {
+  margin-bottom: 30px;
+}
+
+.version-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.version-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.version-table th {
+  text-align: left;
+  padding: 10px 15px;
+  border-bottom: 2px solid #eee;
+  font-weight: 600;
+  color: #555;
+}
+
+.version-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+.version-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Tag styling */
+.version-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.version-tag svg {
+  font-size: 0.7rem;
+}
+
+/* User avatar styling */
+.user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #1890ff;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* State badge styling */
+.state-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.state-badge svg {
+  font-size: 0.7rem;
+}
+
+.state-badge.draft {
+  background-color: #f5f5f5;
+  color: #666;
+}
+
+.state-badge.review {
+  background-color: #e6f7ff;
+  color: #1890ff;
+}
+
+.state-badge.published {
+  background-color: #f6ffed;
+  color: #52c41a;
+} 
