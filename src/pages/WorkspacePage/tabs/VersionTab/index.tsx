@@ -16,15 +16,17 @@ import {
   getCurrentVersion,
   getUniqueBranches,
   getBranchColor,
-  getCommitHash
+  getCommitHash,
+  fileStructure
 } from '../../../../data/versions';
 import '../VersionTab.css';
 
 interface VersionTabProps {
   selectedFile: string;
+  onSelectFile?: (fileName: string) => void;
 }
 
-const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
+const VersionTab: React.FC<VersionTabProps> = ({ selectedFile, onSelectFile }) => {
   // State for view mode
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   
@@ -41,6 +43,13 @@ const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
 
   // Check if the selected file is a system
   const isSystemFile = selectedFile === 'Tower Bot';
+
+  // Function to handle navigation to Tower Bot system object
+  const handleNavigateToTowerBot = () => {
+    if (onSelectFile) {
+      onSelectFile('Tower Bot');
+    }
+  };
 
   // Function to toggle component column visibility
   const toggleComponentColumnVisibility = (column: keyof typeof componentColumnVisibility) => {
@@ -159,7 +168,7 @@ const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
                   </td>
                   <td>
                     <a href="#" className="commit-hash-link">
-                      {getCommitHash(currentVersion.id)}
+                      {currentVersion.commitHash || getCommitHash(currentVersion.id)}
                     </a>
                   </td>
                   <td>{currentVersion.date}</td>

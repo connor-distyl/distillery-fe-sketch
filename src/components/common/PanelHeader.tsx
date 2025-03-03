@@ -11,6 +11,7 @@ interface PanelHeaderProps {
   activePanel: PanelType;
   onSwitchPanel: (panel: PanelType) => void;
   onVersionSelect?: (version: Version) => void;
+  onViewAllClick?: () => void;
   showVersionSelector?: boolean;
 }
 
@@ -19,13 +20,17 @@ const PanelHeader: React.FC<PanelHeaderProps> = ({
   activePanel, 
   onSwitchPanel,
   onVersionSelect,
+  onViewAllClick,
   showVersionSelector = true
 }) => {
   return (
     <div className="panel-header">
       <h2>{title}</h2>
       {showVersionSelector && (
-        <VersionSelector onVersionSelect={onVersionSelect} />
+        <VersionSelector 
+          onVersionSelect={onVersionSelect} 
+          onViewAllClick={onViewAllClick}
+        />
       )}
       <div className="panel-icons">
         <button 

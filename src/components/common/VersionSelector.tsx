@@ -5,11 +5,12 @@ import './VersionSelector.css';
 
 interface VersionSelectorProps {
   onVersionSelect?: (version: Version) => void;
+  onViewAllClick?: () => void;
 }
 
-const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect }) => {
+const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onViewAllClick }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'tags' | 'branches'>('tags');
+  const [activeTab, setActiveTab] = useState<'tags' | 'versions'>('tags');
   const [selectedVersion, setSelectedVersion] = useState<Version>(getLatestVersion());
   const [showAllVersions, setShowAllVersions] = useState(false);
 
@@ -26,6 +27,14 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect }) =>
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleViewAllClick = () => {
+    if (onViewAllClick) {
+      onViewAllClick();
+    } else {
+      setShowAllVersions(true);
+    }
   };
 
   return (
@@ -46,10 +55,10 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect }) =>
               Tags
             </button>
             <button 
-              className={`tab-button ${activeTab === 'branches' ? 'active' : ''}`}
-              onClick={() => setActiveTab('branches')}
+              className={`tab-button ${activeTab === 'versions' ? 'active' : ''}`}
+              onClick={() => setActiveTab('versions')}
             >
-              Branches
+              Versions
             </button>
           </div>
 
@@ -72,9 +81,9 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect }) =>
           {!showAllVersions && versions.length > 5 && (
             <button 
               className="view-all-button"
-              onClick={() => setShowAllVersions(true)}
+              onClick={handleViewAllClick}
             >
-              View all tags
+              View all
             </button>
           )}
         </div>

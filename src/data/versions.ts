@@ -15,6 +15,7 @@ export interface Version {
   state: VersionState;
   parentId?: string;
   branch?: string;
+  commitHash?: string;
 }
 
 // Interface for component data
@@ -41,6 +42,15 @@ export interface ComponentColumnVisibility {
   message: boolean;
 }
 
+// File explorer item type (migrated from FileExplorerPanel)
+export interface FileItem {
+  id: string;
+  name: string;
+  type: 'file' | 'folder' | 'system' | 'routine' | 'prompt' | 'tool' | 'guardrail' | 'code';
+  expanded?: boolean;
+  children?: FileItem[];
+}
+
 // Sample version data for the version selector
 export const versions: Version[] = [
   {
@@ -51,7 +61,8 @@ export const versions: Version[] = [
     user: 'John Doe',
     userInitials: 'JD',
     message: 'Major feature release',
-    state: 'Published'
+    state: 'Published',
+    commitHash: '10a7e8f9'
   },
   {
     id: 'v9',
@@ -61,7 +72,8 @@ export const versions: Version[] = [
     user: 'Jane Smith',
     userInitials: 'JS',
     message: 'Bug fixes and performance improvements',
-    state: 'Published'
+    state: 'Published',
+    commitHash: '9c0d1b2e'
   },
   {
     id: 'v8',
@@ -71,7 +83,8 @@ export const versions: Version[] = [
     user: 'Alex Johnson',
     userInitials: 'AJ',
     message: 'Minor updates',
-    state: 'Published'
+    state: 'Published',
+    commitHash: '8a4b5c6d'
   },
   {
     id: 'v7',
@@ -81,7 +94,8 @@ export const versions: Version[] = [
     user: 'Sarah Williams',
     userInitials: 'SW',
     message: 'Stability improvements',
-    state: 'Published'
+    state: 'Published',
+    commitHash: '7e8f9a0b'
   },
   {
     id: 'v6',
@@ -91,7 +105,8 @@ export const versions: Version[] = [
     user: 'Mike Brown',
     userInitials: 'MB',
     message: 'UI enhancements',
-    state: 'Published'
+    state: 'Published',
+    commitHash: '6c2d3e4f'
   },
   {
     id: 'v5',
@@ -101,7 +116,8 @@ export const versions: Version[] = [
     user: 'Emily Davis',
     userInitials: 'ED',
     message: 'Hotfix for critical issue',
-    state: 'Published'
+    state: 'Published',
+    commitHash: '5a6b7c8d'
   },
   {
     id: 'v4',
@@ -111,7 +127,8 @@ export const versions: Version[] = [
     user: 'Chris Wilson',
     userInitials: 'CW',
     message: 'Initial stable release',
-    state: 'Published'
+    state: 'Published',
+    commitHash: '4e0f1a2b'
   },
   {
     id: 'v3',
@@ -121,7 +138,8 @@ export const versions: Version[] = [
     user: 'David Miller',
     userInitials: 'DM',
     message: 'Beta release',
-    state: 'Published'
+    state: 'Published',
+    commitHash: '3c4d5e6f'
   },
   {
     id: 'v2',
@@ -131,7 +149,8 @@ export const versions: Version[] = [
     user: 'Lisa Taylor',
     userInitials: 'LT',
     message: 'Initial info bot implementation',
-    state: 'Published'
+    state: 'Published',
+    commitHash: '2a8b9c0d'
   },
   {
     id: 'v1',
@@ -141,7 +160,8 @@ export const versions: Version[] = [
     user: 'Robert Garcia',
     userInitials: 'RG',
     message: 'Indexing functionality',
-    state: 'Published'
+    state: 'Published',
+    commitHash: '1e2f3a4b'
   }
 ];
 
@@ -157,7 +177,8 @@ export const versionHistory: Version[] = [
     message: 'Updated content structure',
     state: 'Published',
     parentId: 'v0.9.0',
-    branch: 'main'
+    branch: 'main',
+    commitHash: 'a7e8f9c0'
   },
   {
     id: 'v0.9.0',
@@ -169,7 +190,8 @@ export const versionHistory: Version[] = [
     message: 'Fixed formatting issues',
     state: 'In Review',
     parentId: 'v0.8.0',
-    branch: 'main'
+    branch: 'main',
+    commitHash: 'd1b2e3a4'
   },
   {
     id: 'v0.8.0',
@@ -181,7 +203,8 @@ export const versionHistory: Version[] = [
     message: 'Initial draft',
     state: 'Draft',
     parentId: 'v0.7.0',
-    branch: 'main'
+    branch: 'main',
+    commitHash: 'b5c6d7e8'
   },
   {
     id: 'v0.7.0',
@@ -192,7 +215,8 @@ export const versionHistory: Version[] = [
     userInitials: 'JD',
     message: 'Setup basic structure',
     state: 'Published',
-    branch: 'main'
+    branch: 'main',
+    commitHash: 'f9a0b1c2'
   },
   {
     id: 'v0.6.0',
@@ -204,7 +228,8 @@ export const versionHistory: Version[] = [
     message: 'Feature implementation',
     state: 'Draft',
     parentId: 'v0.4.0',
-    branch: 'feature/new-ui'
+    branch: 'feature/new-ui',
+    commitHash: 'd3e4f5a6'
   },
   {
     id: 'v0.5.0',
@@ -216,7 +241,8 @@ export const versionHistory: Version[] = [
     message: 'Bug fix implementation',
     state: 'Draft',
     parentId: 'v0.4.0',
-    branch: 'fix/bug-123'
+    branch: 'fix/bug-123',
+    commitHash: 'b7c8d9e0'
   },
   {
     id: 'v0.4.0',
@@ -227,7 +253,8 @@ export const versionHistory: Version[] = [
     userInitials: 'JD',
     message: 'Initial implementation',
     state: 'Draft',
-    branch: 'main'
+    branch: 'main',
+    commitHash: 'f1a2b3c4'
   }
 ];
 
@@ -273,6 +300,87 @@ export const componentVersionsBySystemVersion: Record<string, ComponentVersionDa
   ]
 };
 
+// File structure data migrated from FileExplorerPanel
+export const fileStructure: FileItem[] = [
+  {
+    id: '6',
+    name: 'Tower Bot',
+    type: 'system',
+    expanded: true,
+    children: [
+      {
+        id: '2',
+        name: 'Tower Bot',
+        type: 'system'
+      },
+      {
+        id: '3',
+        name: 'Routines',
+        type: 'folder',
+        expanded: true,
+        children: [
+          {
+            id: '4',
+            name: 'Order',
+            type: 'routine'
+          },
+          {
+            id: '5',
+            name: 'Gen Info',
+            type: 'routine'
+          }
+        ]
+      },
+      {
+        id: '8',
+        name: 'Prompts',
+        type: 'folder',
+        expanded: true,
+        children: [
+          {
+            id: '7',
+            name: 'Shared',
+            type: 'prompt'
+          },
+          {
+            id: '9',
+            name: 'Tone',
+            type: 'prompt'
+          }
+        ]
+      },
+      {
+        id: '10',
+        name: 'Tools',
+        type: 'folder',
+        expanded: true,
+        children: [
+          {
+            id: '11',
+            name: 'Device lookup',
+            type: 'tool'
+          },
+          {
+            id: '12',
+            name: 'Gen Info',
+            type: 'tool'
+          }
+        ]
+      },
+      {
+        id: '13',
+        name: 'Guardrails',
+        type: 'guardrail'
+      },
+      {
+        id: '14',
+        name: 'Code',
+        type: 'code'
+      }
+    ]
+  }
+];
+
 // Utility function to get the latest version
 export const getLatestVersion = (): Version => {
   return versions[0];
@@ -286,7 +394,13 @@ export const getCurrentVersion = (fileName: string): Version => {
 
 // Utility function to generate a commit hash from a version ID
 export const getCommitHash = (versionId: string): string => {
-  // Create a deterministic hash-like string based on the version ID
+  // If the version already has a commit hash, return it
+  const version = [...versions, ...versionHistory].find(v => v.id === versionId);
+  if (version && version.commitHash) {
+    return version.commitHash;
+  }
+  
+  // Otherwise create a deterministic hash-like string based on the version ID
   const baseHash = versionId.replace(/\D/g, '');
   return `${baseHash}a7e8f9c0d1b2e3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5`.substring(0, 8);
 };

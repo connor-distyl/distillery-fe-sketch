@@ -18,7 +18,8 @@ const fileNameToIdMap: Record<string, string> = {
   'Tone': '9',
   'Device lookup': '11',
   'Guardrails': '13',
-  'Code': '14'
+  'Code': '14',
+  'Tower Bot': '2'
 };
 
 const WorkspacePage = () => {
@@ -113,6 +114,7 @@ const WorkspacePage = () => {
             selectedFile={selectedFile} 
             isEdited={!!editedSettings[fileNameToIdMap[selectedFile] || selectedFile]}
             onSettingsChange={handleSettingsChange}
+            onSelectFile={handleSelectFile}
           />
         </div>
       </div>

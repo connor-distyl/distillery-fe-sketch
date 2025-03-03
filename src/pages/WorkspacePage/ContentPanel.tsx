@@ -9,12 +9,14 @@ interface ContentPanelProps {
   selectedFile?: string;
   isEdited?: boolean;
   onSettingsChange?: (fileId: string, isEdited: boolean) => void;
+  onSelectFile?: (fileName: string) => void;
 }
 
 const ContentPanel: React.FC<ContentPanelProps> = ({ 
   selectedFile = 'Order', 
   isEdited = false,
-  onSettingsChange
+  onSettingsChange,
+  onSelectFile
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('edit');
 
@@ -30,7 +32,7 @@ const ContentPanel: React.FC<ContentPanelProps> = ({
           />
         );
       case 'version':
-        return <VersionTab selectedFile={selectedFile} />;
+        return <VersionTab selectedFile={selectedFile} onSelectFile={onSelectFile} />;
       default:
         return null;
     }
