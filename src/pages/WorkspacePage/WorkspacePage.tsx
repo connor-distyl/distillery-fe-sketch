@@ -9,6 +9,7 @@ const WorkspacePage = () => {
   const [columnWidth, setColumnWidth] = useState(250);
   const [isDragging, setIsDragging] = useState(false);
   const [activePanel, setActivePanel] = useState<PanelType>('files');
+  const [selectedFile, setSelectedFile] = useState<string>('Order');
 
   // Handle column resize
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -33,6 +34,10 @@ const WorkspacePage = () => {
     setActivePanel(panel);
   };
 
+  const handleSelectFile = (fileName: string) => {
+    setSelectedFile(fileName);
+  };
+
   return (
     <div 
       className="workspace-page" 
@@ -46,6 +51,7 @@ const WorkspacePage = () => {
             <FileExplorerPanel 
               activePanel={activePanel}
               onSwitchPanel={handleSwitchPanel}
+              onSelectFile={handleSelectFile}
             />
           ) : (
             <ChatPanel 
@@ -56,7 +62,7 @@ const WorkspacePage = () => {
         </div>
         <div className="column-resizer" onMouseDown={handleMouseDown}></div>
         <div className="right-column">
-          <ContentPanel />
+          <ContentPanel selectedFile={selectedFile} />
         </div>
       </div>
     </div>

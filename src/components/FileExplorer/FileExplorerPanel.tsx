@@ -6,74 +6,104 @@ import './FileExplorerPanel.css';
 type FileExplorerPanelProps = {
   activePanel: PanelType;
   onSwitchPanel: (panel: PanelType) => void;
+  onSelectFile: (fileName: string) => void;
 }
 
-const FileExplorerPanel = ({ activePanel, onSwitchPanel }: FileExplorerPanelProps) => {
+const FileExplorerPanel = ({ 
+  activePanel, 
+  onSwitchPanel,
+  onSelectFile
+}: FileExplorerPanelProps) => {
   const [fileData, setFileData] = useState<FileItem[]>([
     {
-      id: 'tower-bot',
+      id: '1',
+      name: 'System',
+      type: 'folder',
+      expanded: true,
+      children: [
+        {
+          id: '2',
+          name: 'Tablet 1.0.1',
+          type: 'file'
+        }
+      ]
+    },
+    {
+      id: '3',
+      name: 'Routines',
+      type: 'folder',
+      expanded: true,
+      children: [
+        {
+          id: '4',
+          name: 'Order',
+          type: 'file'
+        },
+        {
+          id: '5',
+          name: 'Gen Info',
+          type: 'file'
+        }
+      ]
+    },
+    {
+      id: '6',
       name: 'Tower Bot',
       type: 'folder',
       expanded: true,
       children: [
         {
-          id: 'system',
-          name: 'System',
-          type: 'folder',
-          expanded: true,
-          children: [
-            { id: 'tablet-1.0.1', name: 'Tablet 1.0.1', type: 'file' }
-          ]
+          id: '7',
+          name: 'Shared',
+          type: 'file'
         },
         {
-          id: 'routines',
-          name: 'Routines',
-          type: 'folder',
-          expanded: true,
-          children: [
-            { id: 'order', name: 'Order', type: 'file' },
-            { id: 'gen-info', name: 'Gen Info', type: 'file' }
-          ]
-        },
-        {
-          id: 'prompts',
+          id: '8',
           name: 'Prompts',
           type: 'folder',
           expanded: true,
           children: [
-            { id: 'shared', name: 'Shared', type: 'file' },
-            { id: 'tone', name: 'Tone', type: 'file' }
+            {
+              id: '9',
+              name: 'Tone',
+              type: 'file'
+            }
           ]
         },
         {
-          id: 'tools',
+          id: '10',
           name: 'Tools',
           type: 'folder',
           expanded: true,
           children: [
-            { id: 'device-lookup', name: 'Device lookup', type: 'file' },
-            { id: 'gen-info-tools', name: 'Gen Info', type: 'file' }
+            {
+              id: '11',
+              name: 'Device lookup',
+              type: 'file'
+            },
+            {
+              id: '12',
+              name: 'Gen Info',
+              type: 'file'
+            }
           ]
         },
         {
-          id: 'guardrails',
+          id: '13',
           name: 'Guardrails',
-          type: 'folder',
-          expanded: true,
-          children: []
+          type: 'folder'
         },
         {
-          id: 'code',
+          id: '14',
           name: 'Code',
-          type: 'folder',
-          expanded: true,
-          children: []
+          type: 'folder'
         }
       ]
     }
   ]);
 
-  // Handle folder toggle
+  const [selectedFileId, setSelectedFileId] = useState<string | undefined>();
+
   const handleToggle = (id: string) => {
     setFileData(prevData => {
       const toggleItem = (items: FileItem[]): FileItem[] => {
@@ -91,6 +121,26 @@ const FileExplorerPanel = ({ activePanel, onSwitchPanel }: FileExplorerPanelProp
     });
   };
 
+  const handleSelectFile = (fileName: string) => {
+    // Find the file ID by name
+    const findFileId = (items: FileItem[]): string | undefined => {
+      for (const item of items) {
+        if (item.type === 'file' && item.name === fileName) {
+          return item.id;
+        }
+        if (item.children) {
+          const foundId = findFileId(item.children);
+          if (foundId) return foundId;
+        }
+      }
+      return undefined;
+    };
+
+    const fileId = findFileId(fileData);
+    setSelectedFileId(fileId);
+    onSelectFile(fileName);
+  };
+
   return (
     <div className="file-explorer-container">
       <PanelHeader 
@@ -98,7 +148,12 @@ const FileExplorerPanel = ({ activePanel, onSwitchPanel }: FileExplorerPanelProp
         activePanel={activePanel} 
         onSwitchPanel={onSwitchPanel} 
       />
-      <FileExplorer data={fileData} onToggle={handleToggle} />
+      <FileExplorer 
+        data={fileData} 
+        onToggle={handleToggle} 
+        onSelectFile={handleSelectFile}
+        selectedFileId={selectedFileId}
+      />
     </div>
   );
 };
