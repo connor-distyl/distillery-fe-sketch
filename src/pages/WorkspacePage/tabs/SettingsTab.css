@@ -10,21 +10,24 @@
   margin-top: 20px;
 }
 
-.metadata-field {
+/* HeroUI Components Styling */
+.hero-field {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
 }
 
-.metadata-field label {
+.hero-label {
   min-width: 100px;
   font-weight: 600;
   text-align: right;
   color: #000;
+  padding-top: 8px;
 }
 
-.metadata-field input,
-.metadata-field select {
+.hero-input,
+.hero-select,
+.hero-multiselect {
   flex: 1;
   padding: 8px 12px;
   border: 1px solid #ccc;
@@ -32,22 +35,34 @@
   font-size: 14px;
   background-color: #fff;
   color: #333;
+  min-width: 250px;
 }
 
-.metadata-field select {
+.hero-select {
   background-color: #f5f5f5;
-  color: #333;
 }
 
-.metadata-field input:focus,
-.metadata-field select:focus {
+.hero-multiselect {
+  background-color: #f5f5f5;
+  min-height: 100px;
+}
+
+.hero-input:focus,
+.hero-select:focus,
+.hero-multiselect:focus {
   outline: none;
   border-color: #1890ff;
   box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
 }
 
-.document-count {
-  margin-left: 5px;
+.hero-multiselect-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.hero-count {
+  margin-left: 8px;
   color: #666;
   font-size: 14px;
 } 
