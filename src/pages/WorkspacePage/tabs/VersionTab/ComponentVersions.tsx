@@ -1,6 +1,21 @@
 import React from 'react';
 import { FaTag, FaCalendarAlt, FaUser, FaComment } from 'react-icons/fa';
-import { Version } from './types';
+
+// Define types inline to avoid import issues
+type VersionState = 'Draft' | 'In Review' | 'Published';
+
+interface Version {
+  id: string;
+  tag: string;
+  name: string;
+  date: string;
+  user: string;
+  userInitials: string;
+  message: string;
+  state: VersionState;
+  parentId?: string;
+  branch?: string;
+}
 
 interface Component {
   id: string;
@@ -16,22 +31,31 @@ interface ComponentVersionData {
   message: string;
 }
 
+interface ComponentColumnVisibility {
+  tag: boolean;
+  date: boolean;
+  user: boolean;
+  message: boolean;
+}
+
+// Utility function to generate a commit hash from a version ID
+const getCommitHash = (versionId: string): string => {
+  // Create a deterministic hash-like string based on the version ID
+  const baseHash = versionId.replace(/\D/g, '');
+  return `${baseHash}a7e8f9c0d1b2e3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5`.substring(0, 8);
+};
+
 interface ComponentVersionsProps {
   versions: Version[];
   components: Component[];
-  componentColumnVisibility: {
-    tag: boolean;
-    date: boolean;
-    user: boolean;
-    message: boolean;
-  };
+  componentColumnVisibility: ComponentColumnVisibility;
   renderComponentColumnToggle: (
-    column: keyof typeof componentColumnVisibility,
+    column: keyof ComponentColumnVisibility,
     label: string,
     icon: React.ReactNode
-  ) => JSX.Element;
+  ) => React.ReactElement;
   getComponentVersionData: (systemVersionId: string, componentId: string) => ComponentVersionData | null;
-  renderUserAvatar: (initials: string) => JSX.Element | null;
+  renderUserAvatar: (initials: string) => React.ReactElement | null;
 }
 
 const ComponentVersions: React.FC<ComponentVersionsProps> = ({
@@ -42,6 +66,24 @@ const ComponentVersions: React.FC<ComponentVersionsProps> = ({
   getComponentVersionData,
   renderUserAvatar,
 }) => {
+  // Function to render tags as badges
+  const renderTagBadges = (tagString: string) => {
+    if (!tagString) return null;
+    
+    // Split the tag string by spaces to get individual tags
+    const tags = tagString.split(' ');
+    
+    return (
+      <>
+        {tags.map((tag, index) => (
+          <span key={index} className={`latest-tag ${index > 0 ? 'secondary-tag' : ''}`}>
+            {tag}
+          </span>
+        ))}
+      </>
+    );
+  };
+
   return (
     <div className="version-section">
       <h3>Component Versions</h3>
@@ -61,7 +103,7 @@ const ComponentVersions: React.FC<ComponentVersionsProps> = ({
         <table className="version-table component-table">
           <thead>
             <tr className="component-header-row">
-              <th className="version-column">Version</th>
+              <th className="version-column">System Version</th>
               {components.map(component => (
                 <th key={component.id} colSpan={Object.values(componentColumnVisibility).filter(Boolean).length} className={`component-header ${component.type}`}>
                   <span className={`component-type ${component.type}`}>{component.type}</span>
@@ -82,12 +124,13 @@ const ComponentVersions: React.FC<ComponentVersionsProps> = ({
             </tr>
           </thead>
           <tbody>
-            {versions.map(version => (
+            {versions.map((version) => (
               <tr key={`component-row-${version.id}`} className="component-row">
                 <td className="version-cell">
                   <span className="version-tag">
                     <FaTag />
-                    {version.id}
+                    {getCommitHash(version.id)}
+                    {version.tag && renderTagBadges(version.tag)}
                   </span>
                 </td>
                 {components.map(component => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaTag } from 'react-icons/fa';
-import { Version, VersionState } from './types';
+import { Version, VersionState, getCommitHash } from './types';
 
 interface ListViewProps {
   currentVersion: Version;
@@ -17,6 +17,25 @@ const ListView: React.FC<ListViewProps> = ({
   renderStateBadge,
   renderUserAvatar,
 }) => {
+  // Function to render tags
+  const renderTags = (tagString: string) => {
+    if (!tagString) return null;
+    
+    // Split the tag string by spaces to get individual tags
+    const tags = tagString.split(' ');
+    
+    return (
+      <>
+        {tags.map((tag, index) => (
+          <span key={index} className="version-tag">
+            <FaTag />
+            {tag}
+          </span>
+        ))}
+      </>
+    );
+  };
+
   return (
     <>
       {/* Current Version Section */}
@@ -26,7 +45,7 @@ const ListView: React.FC<ListViewProps> = ({
           <thead>
             <tr>
               <th>Tag</th>
-              <th>Name</th>
+              <th>System Version</th>
               <th>Date</th>
               <th>User</th>
               <th>Message</th>
@@ -36,14 +55,13 @@ const ListView: React.FC<ListViewProps> = ({
           <tbody>
             <tr>
               <td>
-                {currentVersion.tag && (
-                  <span className="version-tag">
-                    <FaTag />
-                    {currentVersion.tag}
-                  </span>
-                )}
+                {renderTags(currentVersion.tag)}
               </td>
-              <td>{currentVersion.name}</td>
+              <td>
+                <a href="#" className="commit-hash-link">
+                  {getCommitHash(currentVersion.id)}
+                </a>
+              </td>
               <td>{currentVersion.date}</td>
               <td>{renderUserAvatar(currentVersion.userInitials)}</td>
               <td>{currentVersion.message}</td>
@@ -60,7 +78,7 @@ const ListView: React.FC<ListViewProps> = ({
           <thead>
             <tr>
               <th>Tag</th>
-              <th>Name</th>
+              <th>System Version</th>
               <th>Date</th>
               <th>User</th>
               <th>Message</th>
@@ -71,14 +89,13 @@ const ListView: React.FC<ListViewProps> = ({
             {versions.map((version) => (
               <tr key={version.id}>
                 <td>
-                  {version.tag && (
-                    <span className="version-tag">
-                      <FaTag />
-                      {version.tag}
-                    </span>
-                  )}
+                  {renderTags(version.tag)}
                 </td>
-                <td>{version.name}</td>
+                <td>
+                  <a href="#" className="commit-hash-link">
+                    {getCommitHash(version.id)}
+                  </a>
+                </td>
                 <td>{version.date}</td>
                 <td>{renderUserAvatar(version.userInitials)}</td>
                 <td>{version.message}</td>

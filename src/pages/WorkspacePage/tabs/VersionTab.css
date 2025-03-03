@@ -93,6 +93,12 @@
   font-weight: 600;
 }
 
+.latest-tag + .latest-tag,
+.secondary-tag {
+  background-color: #6f42c1;
+  margin-left: 4px;
+}
+
 .version-tag svg {
   margin-right: 4px;
   font-size: 0.8rem;
@@ -477,4 +483,21 @@
 .commit-state {
   display: flex;
   color: #000;
+}
+
+/* Commit hash link styling */
+.commit-hash-link {
+  font-family: monospace;
+  color: #0366d6;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background-color: #f1f8ff;
+  border: 1px solid #e1e4e8;
+  transition: background-color 0.2s ease;
+}
+
+.commit-hash-link:hover {
+  background-color: #ddeeff;
 } 

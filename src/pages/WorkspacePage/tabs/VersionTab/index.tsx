@@ -25,7 +25,7 @@ const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
   // Mock data for current version
   const currentVersion: Version = {
     id: 'v1.0.0',
-    tag: 'latest',
+    tag: 'latest R3.27-1.0.0',
     name: selectedFile,
     date: '2023-03-01',
     user: 'John Doe',
@@ -39,7 +39,7 @@ const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
   const versions: Version[] = [
     {
       id: 'v1.0.0',
-      tag: 'latest',
+      tag: 'latest R3.27-1.0.0',
       name: selectedFile,
       date: '2023-03-01',
       user: 'John Doe',
@@ -51,7 +51,7 @@ const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
     },
     {
       id: 'v0.9.0',
-      tag: 'stable',
+      tag: 'R3.27-0.9.1',
       name: selectedFile,
       date: '2023-02-15',
       user: 'Jane Smith',
@@ -75,13 +75,13 @@ const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
     },
     {
       id: 'v0.7.0',
-      tag: '',
+      tag: 'R3.27-0.9.0',
       name: selectedFile,
       date: '2023-02-05',
       user: 'John Doe',
       userInitials: 'JD',
       message: 'Setup basic structure',
-      state: 'Draft',
+      state: 'Published',
       branch: 'main'
     },
     {
@@ -194,7 +194,7 @@ const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
   };
 
   // Function to render component column toggle button
-  const renderComponentColumnToggle = (column: keyof typeof componentColumnVisibility, label: string, icon: React.ReactNode) => {
+  const renderComponentColumnToggle = (column: 'tag' | 'date' | 'user' | 'message', label: string, icon: React.ReactNode) => {
     return (
       <button 
         className={`column-toggle ${componentColumnVisibility[column] ? 'active' : ''}`}

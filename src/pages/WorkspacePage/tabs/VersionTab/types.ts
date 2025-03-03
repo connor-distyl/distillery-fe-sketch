@@ -40,4 +40,11 @@ export interface ComponentColumnVisibility {
   date: boolean;
   user: boolean;
   message: boolean;
-} 
+}
+
+// Utility function to generate a commit hash from a version ID
+export const getCommitHash = (versionId: string): string => {
+  // Create a deterministic hash-like string based on the version ID
+  const baseHash = versionId.replace(/\D/g, '');
+  return `${baseHash}a7e8f9c0d1b2e3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5`.substring(0, 8);
+}; 

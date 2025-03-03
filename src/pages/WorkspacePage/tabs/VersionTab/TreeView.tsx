@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaTag } from 'react-icons/fa';
-import { Version, VersionState } from './types';
+import { Version, VersionState, getCommitHash } from './types';
 
 interface TreeViewProps {
   versions: Version[];
@@ -19,6 +19,24 @@ const TreeView: React.FC<TreeViewProps> = ({
   getBranchColor,
   branches,
 }) => {
+  // Function to render tags as badges
+  const renderTagBadges = (tagString: string) => {
+    if (!tagString) return null;
+    
+    // Split the tag string by spaces to get individual tags
+    const tags = tagString.split(' ');
+    
+    return (
+      <>
+        {tags.map((tag, index) => (
+          <span key={index} className={`latest-tag ${index > 0 ? 'secondary-tag' : ''}`}>
+            {tag}
+          </span>
+        ))}
+      </>
+    );
+  };
+
   return (
     <div className="version-section">
       <h3>Source Tree</h3>
@@ -74,8 +92,8 @@ const TreeView: React.FC<TreeViewProps> = ({
                 <div className="branch-column">
                   <div className="version-tag" style={{ backgroundColor: getBranchColor(version.branch || '') }}>
                     <FaTag />
-                    <span>{version.id}</span>
-                    {index === 0 && <span className="latest-tag">latest</span>}
+                    <span>{getCommitHash(version.id)}</span>
+                    {version.tag && renderTagBadges(version.tag)}
                   </div>
                 </div>
                 <div className="graph-column">
