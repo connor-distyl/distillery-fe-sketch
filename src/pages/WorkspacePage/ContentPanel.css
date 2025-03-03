@@ -1,0 +1,26 @@
+.content-panel {
+  padding: 20px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.content-panel h1 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.content-panel p {
+  color: #333;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.content-panel .card {
+  padding: 2em;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 800px;
+} 

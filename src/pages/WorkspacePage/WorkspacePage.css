@@ -1,0 +1,55 @@
+.workspace-page {
+  background-color: #f5f5f5;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.two-column-layout {
+  display: flex;
+  width: calc(100%); /* Adjust for sidebar width */
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  position: absolute;
+  left: 0; /* Match sidebar width */
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Left column */
+.left-column {
+  background-color: #f0f0f0;
+  border-right: 1px solid #ddd;
+  height: 100%;
+  min-width: 100px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  transition: width 0.1s ease;
+  margin: 0;
+}
+
+/* Column resizer */
+.column-resizer {
+  width: 5px;
+  background-color: #ddd;
+  cursor: col-resize;
+  height: 100%;
+}
+
+.column-resizer:hover, 
+.column-resizer:active {
+  background-color: #aaa;
+}
+
+/* Right column */
+.right-column {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+} 
