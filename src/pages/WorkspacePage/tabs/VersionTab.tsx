@@ -21,27 +21,7 @@ interface Version {
   state: VersionState;
 }
 
-// Column visibility interface
-interface ColumnVisibility {
-  tag: boolean;
-  name: boolean;
-  date: boolean;
-  user: boolean;
-  message: boolean;
-  state: boolean;
-}
-
 const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
-  // State for column visibility
-  const [columnVisibility, setColumnVisibility] = useState<ColumnVisibility>({
-    tag: true,
-    name: true,
-    date: true,
-    user: true,
-    message: true,
-    state: true
-  });
-
   // State for component column visibility
   const [componentColumnVisibility, setComponentColumnVisibility] = useState({
     tag: true,
@@ -141,14 +121,6 @@ const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
   // Check if the selected file is a system
   const isSystemFile = selectedFile === 'Tower Bot';
 
-  // Function to toggle column visibility
-  const toggleColumnVisibility = (column: keyof ColumnVisibility) => {
-    setColumnVisibility(prev => ({
-      ...prev,
-      [column]: !prev[column]
-    }));
-  };
-
   // Function to toggle component column visibility
   const toggleComponentColumnVisibility = (column: keyof typeof componentColumnVisibility) => {
     setComponentColumnVisibility(prev => ({
@@ -176,21 +148,6 @@ const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
     return initials ? <div className="user-avatar">{initials}</div> : null;
   };
 
-  // Function to render column toggle button
-  const renderColumnToggle = (column: keyof ColumnVisibility, label: string, icon: React.ReactNode) => {
-    return (
-      <button 
-        className={`column-toggle ${columnVisibility[column] ? 'active' : ''}`}
-        onClick={() => toggleColumnVisibility(column)}
-        title={`Toggle ${label} visibility`}
-      >
-        {icon}
-        <span>{label}</span>
-        {columnVisibility[column] ? <FaToggleOn /> : <FaToggleOff />}
-      </button>
-    );
-  };
-
   // Function to render component column toggle button
   const renderComponentColumnToggle = (column: keyof typeof componentColumnVisibility, label: string, icon: React.ReactNode) => {
     return (
@@ -216,50 +173,35 @@ const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
 
   return (
     <div className="version-tab">
-      {/* Column visibility controls */}
-      <div className="column-toggles">
-        <h4>Toggle Columns:</h4>
-        <div className="toggle-buttons">
-          {renderColumnToggle('tag', 'Tag', <FaTag />)}
-          {renderColumnToggle('name', 'Name', <FaTag />)}
-          {renderColumnToggle('date', 'Date', <FaCalendarAlt />)}
-          {renderColumnToggle('user', 'User', <FaUser />)}
-          {renderColumnToggle('message', 'Message', <FaComment />)}
-          {renderColumnToggle('state', 'State', <FaCheck />)}
-        </div>
-      </div>
-
       {/* Current Version Section */}
       <div className="version-section">
         <h3>Current Version</h3>
         <table className="version-table">
           <thead>
             <tr>
-              {columnVisibility.tag && <th>Tag</th>}
-              {columnVisibility.name && <th>Name</th>}
-              {columnVisibility.date && <th>Date</th>}
-              {columnVisibility.user && <th>User</th>}
-              {columnVisibility.message && <th>Message</th>}
-              {columnVisibility.state && <th>State</th>}
+              <th>Tag</th>
+              <th>Name</th>
+              <th>Date</th>
+              <th>User</th>
+              <th>Message</th>
+              <th>State</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              {columnVisibility.tag && (
-                <td>
-                  {currentVersion.tag && (
-                    <span className="version-tag">
-                      <FaTag />
-                      {currentVersion.tag}
-                    </span>
-                  )}
-                </td>
-              )}
-              {columnVisibility.name && <td>{currentVersion.name}</td>}
-              {columnVisibility.date && <td>{currentVersion.date}</td>}
-              {columnVisibility.user && <td>{renderUserAvatar(currentVersion.userInitials)}</td>}
-              {columnVisibility.message && <td>{currentVersion.message}</td>}
-              {columnVisibility.state && <td>{renderStateBadge(currentVersion.state)}</td>}
+              <td>
+                {currentVersion.tag && (
+                  <span className="version-tag">
+                    <FaTag />
+                    {currentVersion.tag}
+                  </span>
+                )}
+              </td>
+              <td>{currentVersion.name}</td>
+              <td>{currentVersion.date}</td>
+              <td>{renderUserAvatar(currentVersion.userInitials)}</td>
+              <td>{currentVersion.message}</td>
+              <td>{renderStateBadge(currentVersion.state)}</td>
             </tr>
           </tbody>
         </table>
@@ -271,32 +213,30 @@ const VersionTab: React.FC<VersionTabProps> = ({ selectedFile }) => {
         <table className="version-table">
           <thead>
             <tr>
-              {columnVisibility.tag && <th>Tag</th>}
-              {columnVisibility.name && <th>Name</th>}
-              {columnVisibility.date && <th>Date</th>}
-              {columnVisibility.user && <th>User</th>}
-              {columnVisibility.message && <th>Message</th>}
-              {columnVisibility.state && <th>State</th>}
+              <th>Tag</th>
+              <th>Name</th>
+              <th>Date</th>
+              <th>User</th>
+              <th>Message</th>
+              <th>State</th>
             </tr>
           </thead>
           <tbody>
             {versions.map((version) => (
               <tr key={version.id}>
-                {columnVisibility.tag && (
-                  <td>
-                    {version.tag && (
-                      <span className="version-tag">
-                        <FaTag />
-                        {version.tag}
-                      </span>
-                    )}
-                  </td>
-                )}
-                {columnVisibility.name && <td>{version.name}</td>}
-                {columnVisibility.date && <td>{version.date}</td>}
-                {columnVisibility.user && <td>{renderUserAvatar(version.userInitials)}</td>}
-                {columnVisibility.message && <td>{version.message}</td>}
-                {columnVisibility.state && <td>{renderStateBadge(version.state)}</td>}
+                <td>
+                  {version.tag && (
+                    <span className="version-tag">
+                      <FaTag />
+                      {version.tag}
+                    </span>
+                  )}
+                </td>
+                <td>{version.name}</td>
+                <td>{version.date}</td>
+                <td>{renderUserAvatar(version.userInitials)}</td>
+                <td>{version.message}</td>
+                <td>{renderStateBadge(version.state)}</td>
               </tr>
             ))}
           </tbody>
