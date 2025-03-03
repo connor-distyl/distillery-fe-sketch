@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaTag, FaCodeBranch, FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import { versions, Version, getLatestVersion } from '../../data/versions';
+import { Version, getLatestVersion, versionHistory } from '../../data/versions';
 import './VersionSelector.css';
 
 interface VersionSelectorProps {
@@ -14,8 +14,11 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onVi
   const [selectedVersion, setSelectedVersion] = useState<Version>(getLatestVersion());
   const [showAllVersions, setShowAllVersions] = useState(false);
 
-  // Display only the first 5 versions unless showAllVersions is true
-  const displayVersions = showAllVersions ? versions : versions.slice(0, 5);
+  // Use versionHistory for both tabs
+  const displayVersions = showAllVersions ? versionHistory : versionHistory.slice(0, 5);
+  
+  // Filter versions with tags for the tags tab
+  const tagsVersions = displayVersions.filter(version => version.tag && version.tag.trim() !== '');
 
   const handleVersionSelect = (version: Version) => {
     setSelectedVersion(version);
@@ -41,7 +44,11 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onVi
     <div className="version-selector">
       <button className="version-selector-button" onClick={toggleDropdown}>
         {activeTab === 'tags' ? <FaTag className="icon" /> : <FaCodeBranch className="icon" />}
-        <span className="version-text">{selectedVersion.tag}</span>
+        <span className="version-text">
+          {activeTab === 'tags' 
+            ? selectedVersion.tag 
+            : (selectedVersion.commitHash || 'No hash')}
+        </span>
         {isOpen ? <FaChevronUp className="chevron" /> : <FaChevronDown className="chevron" />}
       </button>
 
@@ -63,22 +70,46 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onVi
           </div>
 
           <div className="version-list">
-            {displayVersions.map((version) => (
-              <div 
-                key={version.id} 
-                className={`version-item ${selectedVersion.id === version.id ? 'selected' : ''}`}
-                onClick={() => handleVersionSelect(version)}
-              >
-                <FaTag className="version-icon" />
-                <div className="version-info">
-                  <div className="version-tag">{version.tag}</div>
-                  <div className="version-message">{version.message}</div>
+            {activeTab === 'tags' ? (
+              // Display only versions with tags
+              tagsVersions.map((version) => (
+                <div 
+                  key={version.id} 
+                  className={`version-item ${selectedVersion.id === version.id ? 'selected' : ''}`}
+                  onClick={() => handleVersionSelect(version)}
+                >
+                  <FaTag className="version-icon" />
+                  <div className="version-info">
+                    <div className="version-tag">{version.tag}</div>
+                    <div className="version-message">{version.message}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              // Display all versions with commit hash first
+              displayVersions.map((version) => (
+                <div 
+                  key={version.id} 
+                  className={`version-item ${selectedVersion.id === version.id ? 'selected' : ''}`}
+                  onClick={() => handleVersionSelect(version)}
+                >
+                  <FaCodeBranch className="version-icon" />
+                  <div className="version-info">
+                    <div className="version-tag">
+                      {version.commitHash || 'No hash'} 
+                      {version.tag && <span className="version-tag-label">{version.tag}</span>}
+                    </div>
+                    <div className="version-message">{version.message}</div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
 
-          {!showAllVersions && versions.length > 5 && (
+          {!showAllVersions && (
+            (activeTab === 'tags' && tagsVersions.length > 5) || 
+            (activeTab === 'versions' && versionHistory.length > 5)
+          ) && (
             <button 
               className="view-all-button"
               onClick={handleViewAllClick}

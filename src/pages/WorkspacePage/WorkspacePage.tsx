@@ -10,6 +10,9 @@ interface EditedSettings {
   [fileId: string]: boolean;
 }
 
+// Define the TabType to match ContentPanel
+type TabType = 'edit' | 'settings' | 'version';
+
 // Map of file names to IDs (this would normally come from your data source)
 const fileNameToIdMap: Record<string, string> = {
   'Order': '4',
@@ -30,6 +33,8 @@ const WorkspacePage = () => {
   // Add state for tracking edited objects
   const [editedSettings, setEditedSettings] = useState<EditedSettings>({});
   const [selectedFileId, setSelectedFileId] = useState<string>('4'); // Default to Order's ID
+  // Add state for active content tab
+  const [activeContentTab, setActiveContentTab] = useState<TabType>('edit');
 
   // Debug log for edited settings
   useEffect(() => {
@@ -84,6 +89,11 @@ const WorkspacePage = () => {
     });
   };
 
+  // Function to set the active tab in ContentPanel
+  const handleSetActiveTab = (tab: TabType) => {
+    setActiveContentTab(tab);
+  };
+
   return (
     <div 
       className="workspace-page" 
@@ -100,6 +110,7 @@ const WorkspacePage = () => {
               onSelectFile={handleSelectFile}
               editedSettings={editedSettings}
               selectedFileId={selectedFileId}
+              onSetActiveTab={handleSetActiveTab}
             />
           ) : (
             <ChatPanel 
@@ -115,6 +126,8 @@ const WorkspacePage = () => {
             isEdited={!!editedSettings[fileNameToIdMap[selectedFile] || selectedFile]}
             onSettingsChange={handleSettingsChange}
             onSelectFile={handleSelectFile}
+            activeTab={activeContentTab}
+            onSetActiveTab={handleSetActiveTab}
           />
         </div>
       </div>

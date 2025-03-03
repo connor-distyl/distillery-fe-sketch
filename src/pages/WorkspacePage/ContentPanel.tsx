@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaPencilAlt, FaCog, FaCodeBranch, FaExclamationCircle } from 'react-icons/fa';
 import { EditTab, SettingsTab, VersionTab } from './tabs';
 import './ContentPanel.css';
@@ -10,15 +10,37 @@ interface ContentPanelProps {
   isEdited?: boolean;
   onSettingsChange?: (fileId: string, isEdited: boolean) => void;
   onSelectFile?: (fileName: string) => void;
+  activeTab?: TabType;
+  onSetActiveTab?: (tab: TabType) => void;
 }
 
 const ContentPanel: React.FC<ContentPanelProps> = ({ 
   selectedFile = 'Order', 
   isEdited = false,
   onSettingsChange,
-  onSelectFile
+  onSelectFile,
+  activeTab: externalActiveTab,
+  onSetActiveTab
 }) => {
-  const [activeTab, setActiveTab] = useState<TabType>('edit');
+  const [internalActiveTab, setInternalActiveTab] = useState<TabType>('edit');
+  
+  // Use external activeTab if provided, otherwise use internal state
+  const activeTab = externalActiveTab || internalActiveTab;
+  
+  // Update internal state when external state changes
+  useEffect(() => {
+    if (externalActiveTab) {
+      setInternalActiveTab(externalActiveTab);
+    }
+  }, [externalActiveTab]);
+
+  const handleTabChange = (tab: TabType) => {
+    if (onSetActiveTab) {
+      onSetActiveTab(tab);
+    } else {
+      setInternalActiveTab(tab);
+    }
+  };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -54,21 +76,21 @@ const ContentPanel: React.FC<ContentPanelProps> = ({
       <div className="content-tabs">
         <button 
           className={`tab-button ${activeTab === 'edit' ? 'active' : ''}`}
-          onClick={() => setActiveTab('edit')}
+          onClick={() => handleTabChange('edit')}
         >
           <FaPencilAlt />
           <span>Edit</span>
         </button>
         <button 
           className={`tab-button ${activeTab === 'settings' ? 'active' : ''}`}
-          onClick={() => setActiveTab('settings')}
+          onClick={() => handleTabChange('settings')}
         >
           <FaCog />
           <span>Settings</span>
         </button>
         <button 
           className={`tab-button ${activeTab === 'version' ? 'active' : ''}`}
-          onClick={() => setActiveTab('version')}
+          onClick={() => handleTabChange('version')}
         >
           <FaCodeBranch />
           <span>Version</span>

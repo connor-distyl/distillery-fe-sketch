@@ -126,6 +126,17 @@
   text-overflow: ellipsis;
 }
 
+.version-tag-label {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 6px;
+  background-color: #0078d730;
+  border-radius: 3px;
+  font-size: 11px;
+  color: #0078d7;
+  white-space: nowrap;
+}
+
 .version-message {
   font-size: 11px;
   color: #888;
