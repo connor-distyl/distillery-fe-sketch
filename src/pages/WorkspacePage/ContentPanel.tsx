@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaPencilAlt, FaCog, FaCodeBranch } from 'react-icons/fa';
+import { EditTab, SettingsTab, VersionTab } from './tabs';
 import './ContentPanel.css';
 
 type TabType = 'edit' | 'settings' | 'version';
@@ -14,26 +15,11 @@ const ContentPanel: React.FC<ContentPanelProps> = ({ selectedFile = 'Order' }) =
   const renderTabContent = () => {
     switch (activeTab) {
       case 'edit':
-        return (
-          <div className="tab-content">
-            <h3>Edit Mode</h3>
-            <p>This is where you would edit the content of "{selectedFile}"</p>
-          </div>
-        );
+        return <EditTab selectedFile={selectedFile} />;
       case 'settings':
-        return (
-          <div className="tab-content">
-            <h3>Settings</h3>
-            <p>Configure settings for "{selectedFile}"</p>
-          </div>
-        );
+        return <SettingsTab selectedFile={selectedFile} />;
       case 'version':
-        return (
-          <div className="tab-content">
-            <h3>Version History</h3>
-            <p>View and manage versions of "{selectedFile}"</p>
-          </div>
-        );
+        return <VersionTab selectedFile={selectedFile} />;
       default:
         return null;
     }
