@@ -2,12 +2,13 @@ import { useState } from 'react';
 import FileExplorerPanel from '../../components/FileExplorer/FileExplorerPanel';
 import ChatPanel from '../../components/ChatPanel/ChatPanel';
 import ContentPanel from './ContentPanel';
+import { PanelType } from '../../components/common/PanelHeader';
 import './WorkspacePage.css';
 
 const WorkspacePage = () => {
   const [columnWidth, setColumnWidth] = useState(250);
   const [isDragging, setIsDragging] = useState(false);
-  const [activePanel, setActivePanel] = useState<'files' | 'chat'>('files');
+  const [activePanel, setActivePanel] = useState<PanelType>('files');
 
   // Handle column resize
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -28,6 +29,10 @@ const WorkspacePage = () => {
     setIsDragging(false);
   };
 
+  const handleSwitchPanel = (panel: PanelType) => {
+    setActivePanel(panel);
+  };
+
   return (
     <div 
       className="workspace-page" 
@@ -39,13 +44,13 @@ const WorkspacePage = () => {
         <div className="left-column" style={{ width: `${columnWidth}px` }}>
           {activePanel === 'files' ? (
             <FileExplorerPanel 
-              onSwitchToChat={() => setActivePanel('chat')} 
-              isActive={activePanel === 'files'} 
+              activePanel={activePanel}
+              onSwitchPanel={handleSwitchPanel}
             />
           ) : (
             <ChatPanel 
-              onSwitchToFiles={() => setActivePanel('files')} 
-              isActive={activePanel === 'chat'} 
+              activePanel={activePanel}
+              onSwitchPanel={handleSwitchPanel}
             />
           )}
         </div>
