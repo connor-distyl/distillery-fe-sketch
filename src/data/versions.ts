@@ -303,11 +303,6 @@ export const componentVersionsBySystemVersion: Record<string, ComponentVersionDa
 // File structure data migrated from FileExplorerPanel
 export const fileStructure: FileItem[] = [
   {
-    id: '2',
-    name: 'System',
-    type: 'system'
-  },
-  {
     id: '3',
     name: 'Routines',
     type: 'folder',

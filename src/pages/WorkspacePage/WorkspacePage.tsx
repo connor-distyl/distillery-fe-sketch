@@ -17,7 +17,6 @@ type TabType = 'edit' | 'settings' | 'version';
 
 // Map of file names to IDs (this would normally come from your data source)
 const fileNameToIdMap: Record<string, string> = {
-  'System': '2',
   'Order': '4',
   'Gen Info': '5',
   'Shared': '7',
