@@ -32,6 +32,7 @@
   background-color: transparent;
   color: #333;
   border-bottom: 1px solid #ddd;
+  height: 40px; /* Fixed height for consistency */
 }
 
 .system-selection-header h1,
@@ -46,11 +47,23 @@
   align-items: center;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .system-breadcrumb {
   display: flex;
   align-items: center;
   font-size: 0.9rem;
   margin-left: 0.5rem;
+}
+
+.breadcrumb-version-selector {
+  margin-left: 15px;
+  display: flex;
+  align-items: center;
 }
 
 .system-link {

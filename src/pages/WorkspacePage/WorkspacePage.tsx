@@ -4,6 +4,8 @@ import ChatPanel from '../../components/ChatPanel/ChatPanel';
 import ContentPanel from './ContentPanel';
 import SystemSelector from '../../components/SystemSelector/SystemSelector';
 import { PanelType } from '../../components/common/PanelHeader';
+import VersionSelector from '../../components/common/VersionSelector';
+import { Version } from '../../data/versions';
 import { systems } from '../../data/systems';
 import './WorkspacePage.css';
 
@@ -103,6 +105,18 @@ const WorkspacePage = () => {
     setSelectedSystemId(systemId);
   };
 
+  // Function to handle version selection
+  const handleVersionSelect = (version: Version) => {
+    // Just log the selected version for now
+    console.log('Selected version:', version);
+  };
+
+  // Function to handle view all versions
+  const handleViewAllVersions = () => {
+    console.log('View all versions clicked');
+    // Implement view all versions functionality
+  };
+
   // Render system selector if no system is selected
   if (!selectedSystemId) {
     return (
@@ -140,6 +154,12 @@ const WorkspacePage = () => {
             </span>
             <span className="breadcrumb-separator">&gt;</span>
             <span className="current-system">{selectedSystem?.name}</span>
+            <div className="breadcrumb-version-selector">
+              <VersionSelector 
+                onVersionSelect={handleVersionSelect}
+                onViewAllClick={handleViewAllVersions}
+              />
+            </div>
           </div>
         </div>
       </div>

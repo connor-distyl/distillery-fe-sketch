@@ -53,16 +53,9 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onVi
   return (
     <div className="version-selector">
       <button className="version-selector-button" onClick={toggleDropdown}>
-        {activeTab === 'tags' ? <FaTag className="icon" /> : <FaCodeBranch className="icon" />}
+        <FaTag className="icon" />
         <span className="version-text">
-          {activeTab === 'tags' 
-            ? selectedVersion.tag 
-            : (
-              <>
-                <span className="commit-hash">{selectedVersion.commitHash || 'No hash'}</span>
-                {selectedVersion.tag && <span className="version-tag-label-small">{selectedVersion.tag}</span>}
-              </>
-            )}
+          {selectedVersion.tag || 'Latest Version'}
         </span>
         {isOpen ? <FaChevronUp className="chevron" /> : <FaChevronDown className="chevron" />}
       </button>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import FileExplorer from './FileExplorer';
 import PanelHeader, { PanelType } from '../common/PanelHeader';
-import { Version, fileStructure } from '../../data/versions';
+import { fileStructure } from '../../data/versions';
 import './FileExplorerPanel.css';
 
 // Define interface for edited settings
@@ -18,7 +18,6 @@ type FileExplorerPanelProps = {
   onSelectFile: (fileName: string) => void;
   editedSettings: EditedSettings;
   selectedFileId?: string;
-  onVersionSelect?: (version: Version) => void;
   onSetActiveTab?: (tab: TabType) => void;
 }
 
@@ -27,8 +26,7 @@ const FileExplorerPanel = ({
   onSwitchPanel,
   onSelectFile,
   editedSettings,
-  selectedFileId: externalSelectedFileId,
-  onVersionSelect
+  selectedFileId: externalSelectedFileId
 }: FileExplorerPanelProps) => {
   // Use the file structure from versions.ts instead of local state
   const [fileData, setFileData] = useState(fileStructure);
@@ -80,8 +78,7 @@ const FileExplorerPanel = ({
       <PanelHeader 
         title="Explorer" 
         activePanel={activePanel} 
-        onSwitchPanel={onSwitchPanel} 
-        onVersionSelect={onVersionSelect}
+        onSwitchPanel={onSwitchPanel}
       />
       <FileExplorer 
         data={fileData} 
