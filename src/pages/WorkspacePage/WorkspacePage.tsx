@@ -118,7 +118,17 @@ const WorkspacePage = () => {
   // Function to handle view all versions
   const handleViewAllVersions = () => {
     console.log('View all versions clicked');
-    // Implement view all versions functionality
+    // Switch to the versions tab
+    handleWorkspaceTabChange('versions');
+    
+    // Add a small delay to ensure the DOM has updated
+    setTimeout(() => {
+      // Find the version history section and scroll to it
+      const versionHistorySection = document.querySelector('.version-section:nth-child(2)');
+      if (versionHistorySection) {
+        versionHistorySection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   // Function to handle workspace tab change

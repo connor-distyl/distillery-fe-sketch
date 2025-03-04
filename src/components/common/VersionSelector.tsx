@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FaTag, FaCodeBranch, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { Version, getLatestVersion, versionHistory } from '../../data/versions';
 import './VersionSelector.css';
@@ -13,12 +13,30 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onVi
   const [activeTab, setActiveTab] = useState<'tags' | 'versions'>('tags');
   const [selectedVersion, setSelectedVersion] = useState<Version>(getLatestVersion());
   const [showAllVersions, setShowAllVersions] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Use versionHistory for both tabs
   const displayVersions = showAllVersions ? versionHistory : versionHistory.slice(0, 5);
   
   // Filter versions with tags for the tags tab
   const tagsVersions = displayVersions.filter(version => version.tag && version.tag.trim() !== '');
+
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   const handleVersionSelect = (version: Version) => {
     setSelectedVersion(version);
@@ -33,6 +51,7 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onVi
   };
 
   const handleViewAllClick = () => {
+    setIsOpen(false);
     if (onViewAllClick) {
       onViewAllClick();
     } else {
@@ -51,7 +70,7 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onVi
   };
 
   return (
-    <div className="version-selector">
+    <div className="version-selector" ref={dropdownRef}>
       <button className="version-selector-button" onClick={toggleDropdown}>
         <FaTag className="icon" />
         <span className="version-text">
@@ -118,14 +137,12 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onVi
           </div>
 
           {/* Always show the View All button */}
-          {!showAllVersions && (
-            <button 
-              className="view-all-button"
-              onClick={handleViewAllClick}
-            >
-              View all
-            </button>
-          )}
+          <button 
+            className="view-all-button"
+            onClick={handleViewAllClick}
+          >
+            {showAllVersions ? 'View version history' : 'View all'}
+          </button>
         </div>
       )}
     </div>
