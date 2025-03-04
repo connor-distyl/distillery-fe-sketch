@@ -131,7 +131,6 @@ const WorkspacePage = () => {
     >
       <div className="system-header">
         <div className="header-title">
-          <h1>Distyl</h1>
           <div className="system-breadcrumb">
             <span 
               className="system-link"
@@ -144,6 +143,14 @@ const WorkspacePage = () => {
           </div>
         </div>
       </div>
+      
+      {/* GitHub-style tabs */}
+      <div className="workspace-tabs">
+        <div className="workspace-tab active">Components</div>
+        <div className="workspace-tab">Versions</div>
+        <div className="workspace-tab">Actions</div>
+      </div>
+      
       <div className="two-column-layout">
         <div className="left-column" style={{ width: `${columnWidth}px` }}>
           {activePanel === 'files' ? (
