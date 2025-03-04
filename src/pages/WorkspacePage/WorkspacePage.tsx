@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import FileExplorerPanel from '../../components/FileExplorer/FileExplorerPanel';
 import ChatPanel from '../../components/ChatPanel/ChatPanel';
 import ContentPanel from './ContentPanel';
+import SystemSelector from '../../components/SystemSelector/SystemSelector';
 import { PanelType } from '../../components/common/PanelHeader';
+import { systems } from '../../data/systems';
 import './WorkspacePage.css';
 
 // Define interface for edited settings
@@ -15,14 +17,15 @@ type TabType = 'edit' | 'settings' | 'version';
 
 // Map of file names to IDs (this would normally come from your data source)
 const fileNameToIdMap: Record<string, string> = {
+  'System': '2',
   'Order': '4',
   'Gen Info': '5',
   'Shared': '7',
   'Tone': '9',
   'Device lookup': '11',
+  'Gen Info (Tool)': '12',
   'Guardrails': '13',
-  'Code': '14',
-  'Tower Bot': '2'
+  'Code': '14'
 };
 
 const WorkspacePage = () => {
@@ -35,6 +38,8 @@ const WorkspacePage = () => {
   const [selectedFileId, setSelectedFileId] = useState<string>('4'); // Default to Order's ID
   // Add state for active content tab
   const [activeContentTab, setActiveContentTab] = useState<TabType>('edit');
+  // Add state for selected system
+  const [selectedSystemId, setSelectedSystemId] = useState<string | null>(null);
 
   // Debug log for edited settings
   useEffect(() => {
@@ -94,6 +99,30 @@ const WorkspacePage = () => {
     setActiveContentTab(tab);
   };
 
+  // Function to handle system selection
+  const handleSelectSystem = (systemId: string) => {
+    setSelectedSystemId(systemId);
+  };
+
+  // Render system selector if no system is selected
+  if (!selectedSystemId) {
+    return (
+      <div className="workspace-page system-selection-page">
+        <div className="system-selection-header">
+          <h1>Distyl</h1>
+        </div>
+        <SystemSelector 
+          systems={systems}
+          selectedSystemId={selectedSystemId}
+          onSelectSystem={handleSelectSystem}
+        />
+      </div>
+    );
+  }
+
+  // Find the selected system to display its name
+  const selectedSystem = systems.find(system => system.id === selectedSystemId);
+
   return (
     <div 
       className="workspace-page" 
@@ -101,6 +130,21 @@ const WorkspacePage = () => {
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
     >
+      <div className="system-header">
+        <div className="header-title">
+          <h1>Distyl</h1>
+          <div className="system-breadcrumb">
+            <span 
+              className="system-link"
+              onClick={() => setSelectedSystemId(null)}
+            >
+              Systems
+            </span>
+            <span className="breadcrumb-separator">&gt;</span>
+            <span className="current-system">{selectedSystem?.name}</span>
+          </div>
+        </div>
+      </div>
       <div className="two-column-layout">
         <div className="left-column" style={{ width: `${columnWidth}px` }}>
           {activePanel === 'files' ? (

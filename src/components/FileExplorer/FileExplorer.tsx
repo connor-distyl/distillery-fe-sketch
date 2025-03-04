@@ -82,8 +82,8 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
           ) : (
             <span className={`file-icon ${item.type}-icon`}>
               {item.type === 'system' && (
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M5 0a.5.5 0 0 1 .5.5V2h1V.5a.5.5 0 0 1 1 0V2h1V.5a.5.5 0 0 1 1 0V2A2.5 2.5 0 0 1 11 4.5h2v9.288c0 .289-.242.612-.483.712L8 16.5l-4.517-2A.5.5 0 0 1 3 14V4.5h2A2.5 2.5 0 0 1 7.5 2V.5A.5.5 0 0 1 8 0zm-.5 5h-2v1h2v-1zm0 3h-2v1h2V8zm0 3h-2v1h2v-1zM8 8.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#1E88E5" viewBox="0 0 16 16">
+                  <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
                 </svg>
               )}
               {item.type === 'routine' && (

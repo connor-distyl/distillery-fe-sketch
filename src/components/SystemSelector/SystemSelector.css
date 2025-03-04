@@ -1,0 +1,66 @@
+.system-selector {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.system-selector h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.systems-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.system-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.system-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: #aaa;
+}
+
+.system-card.selected {
+  border-color: #0366d6;
+  background-color: #f0f7ff;
+}
+
+.system-icon {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.system-info {
+  flex: 1;
+}
+
+.system-info h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.system-info p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+} 

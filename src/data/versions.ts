@@ -303,81 +303,73 @@ export const componentVersionsBySystemVersion: Record<string, ComponentVersionDa
 // File structure data migrated from FileExplorerPanel
 export const fileStructure: FileItem[] = [
   {
-    id: '6',
-    name: 'Tower Bot',
-    type: 'system',
+    id: '2',
+    name: 'System',
+    type: 'system'
+  },
+  {
+    id: '3',
+    name: 'Routines',
+    type: 'folder',
     expanded: true,
     children: [
       {
-        id: '2',
-        name: 'Tower Bot',
-        type: 'system'
+        id: '4',
+        name: 'Order',
+        type: 'routine'
       },
       {
-        id: '3',
-        name: 'Routines',
-        type: 'folder',
-        expanded: true,
-        children: [
-          {
-            id: '4',
-            name: 'Order',
-            type: 'routine'
-          },
-          {
-            id: '5',
-            name: 'Gen Info',
-            type: 'routine'
-          }
-        ]
-      },
-      {
-        id: '8',
-        name: 'Prompts',
-        type: 'folder',
-        expanded: true,
-        children: [
-          {
-            id: '7',
-            name: 'Shared',
-            type: 'prompt'
-          },
-          {
-            id: '9',
-            name: 'Tone',
-            type: 'prompt'
-          }
-        ]
-      },
-      {
-        id: '10',
-        name: 'Tools',
-        type: 'folder',
-        expanded: true,
-        children: [
-          {
-            id: '11',
-            name: 'Device lookup',
-            type: 'tool'
-          },
-          {
-            id: '12',
-            name: 'Gen Info',
-            type: 'tool'
-          }
-        ]
-      },
-      {
-        id: '13',
-        name: 'Guardrails',
-        type: 'guardrail'
-      },
-      {
-        id: '14',
-        name: 'Code',
-        type: 'code'
+        id: '5',
+        name: 'Gen Info',
+        type: 'routine'
       }
     ]
+  },
+  {
+    id: '8',
+    name: 'Prompts',
+    type: 'folder',
+    expanded: true,
+    children: [
+      {
+        id: '7',
+        name: 'Shared',
+        type: 'prompt'
+      },
+      {
+        id: '9',
+        name: 'Tone',
+        type: 'prompt'
+      }
+    ]
+  },
+  {
+    id: '10',
+    name: 'Tools',
+    type: 'folder',
+    expanded: true,
+    children: [
+      {
+        id: '11',
+        name: 'Device lookup',
+        type: 'tool'
+      },
+      {
+        id: '12',
+        name: 'Gen Info (Tool)',
+        type: 'tool'
+      }
+    ]
+  },
+  {
+    id: '13',
+    name: 'Guardrails',
+    type: 'guardrail'
+  },
+  {
+    id: '14',
+    name: 'Code',
+    type: 'code'
   }
 ];
 

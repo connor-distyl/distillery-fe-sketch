@@ -28,8 +28,7 @@ const FileExplorerPanel = ({
   onSelectFile,
   editedSettings,
   selectedFileId: externalSelectedFileId,
-  onVersionSelect,
-  onSetActiveTab
+  onVersionSelect
 }: FileExplorerPanelProps) => {
   // Use the file structure from versions.ts instead of local state
   const [fileData, setFileData] = useState(fileStructure);
@@ -76,15 +75,6 @@ const FileExplorerPanel = ({
     onSelectFile(fileName);
   };
 
-  // Handle "View all" click to navigate to Tower Bot and open version tab
-  const handleViewAllClick = () => {
-    handleSelectFile('Tower Bot');
-    // Also set the active tab to 'version' if the callback is provided
-    if (onSetActiveTab) {
-      onSetActiveTab('version');
-    }
-  };
-
   return (
     <div className="file-explorer-container">
       <PanelHeader 
@@ -92,7 +82,6 @@ const FileExplorerPanel = ({
         activePanel={activePanel} 
         onSwitchPanel={onSwitchPanel} 
         onVersionSelect={onVersionSelect}
-        onViewAllClick={handleViewAllClick}
       />
       <FileExplorer 
         data={fileData} 
