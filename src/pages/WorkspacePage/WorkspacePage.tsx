@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import FileExplorerPanel from '../../components/FileExplorer/FileExplorerPanel';
 import ChatPanel from '../../components/ChatPanel/ChatPanel';
 import ContentPanel from './ContentPanel';
+import VersionPage from './VersionPage';
 import SystemSelector from '../../components/SystemSelector/SystemSelector';
 import { PanelType } from '../../components/common/PanelHeader';
 import VersionSelector from '../../components/common/VersionSelector';
 import { Version } from '../../data/versions';
 import { systems } from '../../data/systems';
 import './WorkspacePage.css';
+import './VersionPage.css';
 
 // Define interface for edited settings
 interface EditedSettings {
@@ -41,6 +43,8 @@ const WorkspacePage = () => {
   const [activeContentTab, setActiveContentTab] = useState<TabType>('edit');
   // Add state for selected system
   const [selectedSystemId, setSelectedSystemId] = useState<string | null>(null);
+  // Add state for active workspace tab
+  const [activeWorkspaceTab, setActiveWorkspaceTab] = useState<'components' | 'versions' | 'actions'>('components');
 
   // Debug log for edited settings
   useEffect(() => {
@@ -117,6 +121,16 @@ const WorkspacePage = () => {
     // Implement view all versions functionality
   };
 
+  // Function to handle workspace tab change
+  const handleWorkspaceTabChange = (tab: 'components' | 'versions' | 'actions') => {
+    setActiveWorkspaceTab(tab);
+    
+    // If switching to versions tab, set the content tab to version
+    if (tab === 'versions') {
+      setActiveContentTab('version');
+    }
+  };
+
   // Render system selector if no system is selected
   if (!selectedSystemId) {
     return (
@@ -166,41 +180,72 @@ const WorkspacePage = () => {
       
       {/* GitHub-style tabs */}
       <div className="workspace-tabs">
-        <div className="workspace-tab active">Components</div>
-        <div className="workspace-tab">Versions</div>
-        <div className="workspace-tab">Actions</div>
+        <div 
+          className={`workspace-tab ${activeWorkspaceTab === 'components' ? 'active' : ''}`}
+          onClick={() => handleWorkspaceTabChange('components')}
+        >
+          Components
+        </div>
+        <div 
+          className={`workspace-tab ${activeWorkspaceTab === 'versions' ? 'active' : ''}`}
+          onClick={() => handleWorkspaceTabChange('versions')}
+        >
+          Versions
+        </div>
+        <div 
+          className={`workspace-tab ${activeWorkspaceTab === 'actions' ? 'active' : ''}`}
+          onClick={() => handleWorkspaceTabChange('actions')}
+        >
+          Actions
+        </div>
       </div>
       
-      <div className="two-column-layout">
-        <div className="left-column" style={{ width: `${columnWidth}px` }}>
-          {activePanel === 'files' ? (
-            <FileExplorerPanel 
-              activePanel={activePanel}
-              onSwitchPanel={handleSwitchPanel}
+      {activeWorkspaceTab === 'components' ? (
+        <div className="two-column-layout">
+          <div className="left-column" style={{ width: `${columnWidth}px` }}>
+            {activePanel === 'files' ? (
+              <FileExplorerPanel 
+                activePanel={activePanel}
+                onSwitchPanel={handleSwitchPanel}
+                onSelectFile={handleSelectFile}
+                editedSettings={editedSettings}
+                selectedFileId={selectedFileId}
+                onSetActiveTab={handleSetActiveTab}
+              />
+            ) : (
+              <ChatPanel 
+                activePanel={activePanel}
+                onSwitchPanel={handleSwitchPanel}
+              />
+            )}
+          </div>
+          <div className="column-resizer" onMouseDown={handleMouseDown}></div>
+          <div className="right-column">
+            <ContentPanel 
+              selectedFile={selectedFile} 
+              isEdited={!!editedSettings[fileNameToIdMap[selectedFile] || selectedFile]}
+              onSettingsChange={handleSettingsChange}
               onSelectFile={handleSelectFile}
-              editedSettings={editedSettings}
-              selectedFileId={selectedFileId}
+              activeTab={activeContentTab}
               onSetActiveTab={handleSetActiveTab}
             />
-          ) : (
-            <ChatPanel 
-              activePanel={activePanel}
-              onSwitchPanel={handleSwitchPanel}
-            />
-          )}
+          </div>
         </div>
-        <div className="column-resizer" onMouseDown={handleMouseDown}></div>
-        <div className="right-column">
-          <ContentPanel 
-            selectedFile={selectedFile} 
-            isEdited={!!editedSettings[fileNameToIdMap[selectedFile] || selectedFile]}
-            onSettingsChange={handleSettingsChange}
+      ) : activeWorkspaceTab === 'versions' ? (
+        <div className="full-width-content">
+          <VersionPage 
+            selectedFile={selectedFile}
             onSelectFile={handleSelectFile}
-            activeTab={activeContentTab}
-            onSetActiveTab={handleSetActiveTab}
           />
         </div>
-      </div>
+      ) : (
+        <div className="full-width-content">
+          <div className="placeholder-content">
+            <h2>Actions</h2>
+            <p>Actions functionality coming soon.</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -85,6 +85,25 @@
   background-color: #f9f9f9;
 }
 
+.current-version-row {
+  background-color: #f0f7ff;
+}
+
+.current-version-row:hover {
+  background-color: #e6f0fa;
+}
+
+.current-version-indicator {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 6px;
+  background-color: #1890ff;
+  color: white;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
 /* Tag styling */
 .version-tag {
   display: inline-flex;

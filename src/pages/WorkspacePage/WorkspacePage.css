@@ -166,4 +166,21 @@
   flex: 1;
   height: 100%;
   overflow: hidden;
+}
+
+.full-width-content {
+  width: 100%;
+  height: calc(100% - 108px); /* Adjust for header height + tabs height */
+  position: absolute;
+  left: 0;
+  top: 108px; /* Match header height + tabs height */
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.placeholder-content {
+  padding: 20px;
+  text-align: center;
+  color: #666;
 } 
