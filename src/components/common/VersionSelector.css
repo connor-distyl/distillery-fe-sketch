@@ -44,6 +44,13 @@
   text-overflow: ellipsis;
 }
 
+/* Add styles for the unsaved changes indicator */
+.unsaved-changes-indicator {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
 .version-dropdown {
   position: absolute;
   top: 100%;

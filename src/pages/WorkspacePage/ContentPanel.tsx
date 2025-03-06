@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaPencilAlt, FaCog, FaCodeBranch, FaExclamationCircle } from 'react-icons/fa';
+import { FaPencilAlt, FaCog, FaCodeBranch } from 'react-icons/fa';
 import { EditTab, SettingsTab, VersionTab } from './tabs';
 import './ContentPanel.css';
 
@@ -67,7 +67,7 @@ const ContentPanel: React.FC<ContentPanelProps> = ({
           {selectedFile}
           {isEdited && (
             <span className="content-edited-badge" title="This item has unsaved changes">
-              <FaExclamationCircle size={18} color="#ff6b00" style={{ marginLeft: '10px' }} />
+              <FaPencilAlt size={16} color="#ff6b00" style={{ marginLeft: '10px' }} />
             </span>
           )}
         </h2>

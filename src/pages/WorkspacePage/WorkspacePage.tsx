@@ -9,7 +9,7 @@ import { Version } from '../../data/versions';
 import SimpleSettingsTab from './tabs/SimpleSettingsTab';
 import './WorkspacePage.css';
 import './VersionPage.css';
-import { FaComment, FaCubes, FaHistory, FaPlay, FaCog } from 'react-icons/fa';
+import { FaComment, FaCubes, FaHistory, FaPlay, FaCog, FaPencilAlt } from 'react-icons/fa';
 
 // Define interface for edited settings
 interface EditedSettings {
@@ -46,6 +46,9 @@ const WorkspacePage = () => {
   const [selectedSystemId, setSelectedSystemId] = useState<string | null>(null);
   // Add state for active workspace tab
   const [activeWorkspaceTab, setActiveWorkspaceTab] = useState<WorkspaceTabType>('components');
+
+  // Add a computed value to check if there are any unsaved changes
+  const hasUnsavedChanges = Object.values(editedSettings).some(isEdited => isEdited);
 
   // Debug log for edited settings
   useEffect(() => {
@@ -179,6 +182,7 @@ const WorkspacePage = () => {
               <VersionSelector 
                 onVersionSelect={handleVersionSelect}
                 onViewAllClick={handleViewAllVersions}
+                hasUnsavedChanges={hasUnsavedChanges}
               />
             </div>
           </div>

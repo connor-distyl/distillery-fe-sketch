@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FaExclamationCircle, FaEdit } from 'react-icons/fa';
+import { FaEdit } from 'react-icons/fa';
 import './FileExplorer.css';
 
 // Define interface for edited settings
@@ -130,7 +130,7 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
           </span>
           {isEdited && (
             <span className="edited-badge" title="This item has unsaved changes">
-              <FaExclamationCircle size={14} color="#ff6b00" />
+              {/* <FaEdit size={14} color="#ff6b00" /> */}
             </span>
           )}
         </div>
