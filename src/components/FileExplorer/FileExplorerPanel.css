@@ -3,6 +3,10 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1; /* Lower z-index than tabs */
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .file-explorer-container h2 {

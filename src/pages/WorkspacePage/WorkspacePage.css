@@ -103,6 +103,8 @@
   padding: 0 16px;
   height: 48px;
   align-items: flex-end;
+  position: relative;
+  z-index: 10; /* Ensure tabs are always on top and clickable */
 }
 
 .workspace-tab {
@@ -119,6 +121,8 @@
   margin-right: 4px;
   position: relative;
   bottom: -1px;
+  z-index: 11; /* Ensure individual tabs are clickable */
+  pointer-events: auto; /* Ensure clicks are registered */
 }
 
 .workspace-tab:hover {
@@ -142,6 +146,9 @@
   flex-direction: column;
   flex: 1;
   overflow: hidden;
+  position: relative; /* Add position relative */
+  height: calc(100vh - 90px); /* Set a specific height, accounting for header and tabs */
+  margin-top: 0; /* Ensure no extra margin */
 }
 
 .chat-tab-content {
@@ -213,15 +220,15 @@
 
 .two-column-layout {
   display: flex;
-  width: calc(100%); /* Adjust for sidebar width */
-  height: calc(100% - 108px); /* Adjust for header height + tabs height */
+  width: 100%;
+  height: 100%; /* Change to 100% to stay within workspace-content */
   overflow: hidden;
   margin: 0;
-  position: absolute;
-  left: 0; /* Match sidebar width */
-  top: 108px; /* Match header height + tabs height */
+  position: relative; /* Change from absolute to relative */
+  left: 0;
   right: 0;
   bottom: 0;
+  top: 0; /* Ensure it starts at the top of workspace-content */
 }
 
 /* Left column */
@@ -235,6 +242,7 @@
   position: relative;
   transition: width 0.1s ease;
   margin: 0;
+  z-index: 1; /* Ensure it doesn't overlap with other elements */
 }
 
 /* Column resizer */
@@ -243,6 +251,7 @@
   background-color: #ddd;
   cursor: col-resize;
   height: 100%;
+  z-index: 2; /* Ensure it's above the columns */
 }
 
 .column-resizer:hover, 
@@ -254,7 +263,10 @@
 .right-column {
   flex: 1;
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
+  background-color: #fff;
+  position: relative;
+  z-index: 1; /* Ensure proper stacking */
 }
 
 .full-width-content {
