@@ -6,9 +6,10 @@ import SystemSelector from '../../components/SystemSelector/SystemSelector';
 import VersionSelector from '../../components/common/VersionSelector';
 import { systems } from '../../data/systems';
 import { Version } from '../../data/versions';
+import SimpleSettingsTab from './tabs/SimpleSettingsTab';
 import './WorkspacePage.css';
 import './VersionPage.css';
-import { FaComment, FaCubes, FaHistory, FaPlay } from 'react-icons/fa';
+import { FaComment, FaCubes, FaHistory, FaPlay, FaCog } from 'react-icons/fa';
 
 // Define interface for edited settings
 interface EditedSettings {
@@ -30,7 +31,7 @@ const fileNameToIdMap: Record<string, string> = {
   'Code': '14'
 };
 
-type WorkspaceTabType = 'components' | 'versions' | 'actions' | 'chat';
+type WorkspaceTabType = 'components' | 'versions' | 'actions' | 'chat' | 'settings';
 
 const WorkspacePage = () => {
   const [columnWidth, setColumnWidth] = useState(250);
@@ -210,6 +211,12 @@ const WorkspacePage = () => {
         >
           <FaComment className="tab-icon" /> Chat
         </div>
+        <div 
+          className={`workspace-tab ${activeWorkspaceTab === 'settings' ? 'active' : ''}`}
+          onClick={() => handleWorkspaceTabChange('settings')}
+        >
+          <FaCog className="tab-icon" /> Settings
+        </div>
       </div>
       
       {/* Main content area */}
@@ -250,7 +257,7 @@ const WorkspacePage = () => {
               <p>Actions functionality coming soon.</p>
             </div>
           </div>
-        ) : (
+        ) : activeWorkspaceTab === 'chat' ? (
           <div className="chat-tab-content">
             <div className="chat-panel-wrapper">
               <div className="chat-messages">
@@ -271,6 +278,13 @@ const WorkspacePage = () => {
                 </button>
               </div>
             </div>
+          </div>
+        ) : (
+          <div className="full-width-content">
+            <SimpleSettingsTab 
+              selectedFile={selectedFile}
+              onSettingsChange={handleSettingsChange}
+            />
           </div>
         )}
       </div>

@@ -203,8 +203,6 @@ const SettingsTab: React.FC<SettingsTabProps> = ({ selectedFile, onSettingsChang
 
   return (
     <div className="tab-content settings-tab">
-      <h3>Metadata for "{selectedFile}"</h3>
-      
       <div className="metadata-form">
         <HeroTextField
           id="name"
