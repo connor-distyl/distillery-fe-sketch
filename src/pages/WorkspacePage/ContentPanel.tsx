@@ -67,7 +67,7 @@ const ContentPanel: React.FC<ContentPanelProps> = ({
           {selectedFile}
           {isEdited && (
             <span className="content-edited-badge" title="This item has unsaved changes">
-              <FaPencilAlt size={16} color="#ff6b00" style={{ marginLeft: '10px' }} />
+              <FaPencilAlt size={20} color="#ff6b00" style={{ marginLeft: '10px', backgroundColor: 'rgba(255, 107, 0, 0.1)', borderRadius: '4px', filter: 'drop-shadow(0 0 2px rgba(255, 107, 0, 0.5))' }} />
             </span>
           )}
         </h2>
