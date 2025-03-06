@@ -278,10 +278,11 @@
 .unsaved-changes-banner {
   background-color: #fff3e0; /* Light orange background */
   border-bottom: 1px solid #ffcc80; /* Slightly darker orange border */
+  padding: 8px 16px;
   width: 100%;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 50; /* Lower z-index so VersionSelector dropdown appears above */
   left: 0;
   right: 0;
 }
@@ -328,6 +329,8 @@
   border-radius: 4px;
   margin: 10px;
   padding: 12px;
+  position: relative;
+  z-index: 40; /* Lower than the VersionSelector dropdown */
 }
 
 .info-banner-content {
