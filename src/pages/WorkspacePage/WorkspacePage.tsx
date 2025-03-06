@@ -228,6 +228,12 @@ const WorkspacePage = () => {
           <FaHistory className="tab-icon" /> Versions
         </div>
         <div 
+          className={`workspace-tab ${activeWorkspaceTab === 'settings' ? 'active' : ''}`}
+          onClick={() => handleWorkspaceTabChange('settings')}
+        >
+          <FaCog className="tab-icon" /> Settings
+        </div>
+        <div 
           className={`workspace-tab ${activeWorkspaceTab === 'actions' ? 'active' : ''}`}
           onClick={() => handleWorkspaceTabChange('actions')}
         >
@@ -238,12 +244,6 @@ const WorkspacePage = () => {
           onClick={() => handleWorkspaceTabChange('chat')}
         >
           <FaComment className="tab-icon" /> Chat
-        </div>
-        <div 
-          className={`workspace-tab ${activeWorkspaceTab === 'settings' ? 'active' : ''}`}
-          onClick={() => handleWorkspaceTabChange('settings')}
-        >
-          <FaCog className="tab-icon" /> Settings
         </div>
       </div>
       
