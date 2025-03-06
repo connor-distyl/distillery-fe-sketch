@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import FileExplorer from './FileExplorer';
-import PanelHeader, { PanelType } from '../common/PanelHeader';
+import PanelHeader from '../common/PanelHeader';
 import { fileStructure } from '../../data/versions';
 import './FileExplorerPanel.css';
 
@@ -13,8 +13,6 @@ interface EditedSettings {
 type TabType = 'edit' | 'settings' | 'version';
 
 type FileExplorerPanelProps = {
-  activePanel: PanelType;
-  onSwitchPanel: (panel: PanelType) => void;
   onSelectFile: (fileName: string) => void;
   editedSettings: EditedSettings;
   selectedFileId?: string;
@@ -22,8 +20,6 @@ type FileExplorerPanelProps = {
 }
 
 const FileExplorerPanel = ({ 
-  activePanel, 
-  onSwitchPanel,
   onSelectFile,
   editedSettings,
   selectedFileId: externalSelectedFileId
@@ -77,8 +73,6 @@ const FileExplorerPanel = ({
     <div className="file-explorer-container">
       <PanelHeader 
         title="Explorer" 
-        activePanel={activePanel} 
-        onSwitchPanel={onSwitchPanel}
       />
       <FileExplorer 
         data={fileData} 

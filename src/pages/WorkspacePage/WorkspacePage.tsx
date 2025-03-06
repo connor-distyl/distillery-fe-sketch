@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import FileExplorerPanel from '../../components/FileExplorer/FileExplorerPanel';
-import ChatPanel from '../../components/ChatPanel/ChatPanel';
 import ContentPanel from './ContentPanel';
 import VersionPage from './VersionPage';
 import SystemSelector from '../../components/SystemSelector/SystemSelector';
-import { PanelType } from '../../components/common/PanelHeader';
 import VersionSelector from '../../components/common/VersionSelector';
-import { Version } from '../../data/versions';
 import { systems } from '../../data/systems';
+import { Version } from '../../data/versions';
 import './WorkspacePage.css';
 import './VersionPage.css';
+import { FaComment, FaCubes, FaHistory, FaPlay } from 'react-icons/fa';
 
 // Define interface for edited settings
 interface EditedSettings {
@@ -31,10 +30,11 @@ const fileNameToIdMap: Record<string, string> = {
   'Code': '14'
 };
 
+type WorkspaceTabType = 'components' | 'versions' | 'actions' | 'chat';
+
 const WorkspacePage = () => {
   const [columnWidth, setColumnWidth] = useState(250);
   const [isDragging, setIsDragging] = useState(false);
-  const [activePanel, setActivePanel] = useState<PanelType>('files');
   const [selectedFile, setSelectedFile] = useState<string>('Order');
   // Add state for tracking edited objects
   const [editedSettings, setEditedSettings] = useState<EditedSettings>({});
@@ -44,7 +44,7 @@ const WorkspacePage = () => {
   // Add state for selected system
   const [selectedSystemId, setSelectedSystemId] = useState<string | null>(null);
   // Add state for active workspace tab
-  const [activeWorkspaceTab, setActiveWorkspaceTab] = useState<'components' | 'versions' | 'actions'>('components');
+  const [activeWorkspaceTab, setActiveWorkspaceTab] = useState<WorkspaceTabType>('components');
 
   // Debug log for edited settings
   useEffect(() => {
@@ -68,10 +68,6 @@ const WorkspacePage = () => {
 
   const handleMouseUp = () => {
     setIsDragging(false);
-  };
-
-  const handleSwitchPanel = (panel: PanelType) => {
-    setActivePanel(panel);
   };
 
   const handleSelectFile = (fileName: string) => {
@@ -132,7 +128,7 @@ const WorkspacePage = () => {
   };
 
   // Function to handle workspace tab change
-  const handleWorkspaceTabChange = (tab: 'components' | 'versions' | 'actions') => {
+  const handleWorkspaceTabChange = (tab: WorkspaceTabType) => {
     setActiveWorkspaceTab(tab);
     
     // If switching to versions tab, set the content tab to version
@@ -194,68 +190,90 @@ const WorkspacePage = () => {
           className={`workspace-tab ${activeWorkspaceTab === 'components' ? 'active' : ''}`}
           onClick={() => handleWorkspaceTabChange('components')}
         >
-          Components
+          <FaCubes className="tab-icon" /> Components
         </div>
         <div 
           className={`workspace-tab ${activeWorkspaceTab === 'versions' ? 'active' : ''}`}
           onClick={() => handleWorkspaceTabChange('versions')}
         >
-          Versions
+          <FaHistory className="tab-icon" /> Versions
         </div>
         <div 
           className={`workspace-tab ${activeWorkspaceTab === 'actions' ? 'active' : ''}`}
           onClick={() => handleWorkspaceTabChange('actions')}
         >
-          Actions
+          <FaPlay className="tab-icon" /> Actions
+        </div>
+        <div 
+          className={`workspace-tab ${activeWorkspaceTab === 'chat' ? 'active' : ''}`}
+          onClick={() => handleWorkspaceTabChange('chat')}
+        >
+          <FaComment className="tab-icon" /> Chat
         </div>
       </div>
       
-      {activeWorkspaceTab === 'components' ? (
-        <div className="two-column-layout">
-          <div className="left-column" style={{ width: `${columnWidth}px` }}>
-            {activePanel === 'files' ? (
+      {/* Main content area */}
+      <div className="workspace-content">
+        {activeWorkspaceTab === 'components' ? (
+          <div className="two-column-layout">
+            <div className="left-column" style={{ width: `${columnWidth}px` }}>
               <FileExplorerPanel 
-                activePanel={activePanel}
-                onSwitchPanel={handleSwitchPanel}
                 onSelectFile={handleSelectFile}
                 editedSettings={editedSettings}
                 selectedFileId={selectedFileId}
                 onSetActiveTab={handleSetActiveTab}
               />
-            ) : (
-              <ChatPanel 
-                activePanel={activePanel}
-                onSwitchPanel={handleSwitchPanel}
+            </div>
+            <div className="column-resizer" onMouseDown={handleMouseDown}></div>
+            <div className="right-column">
+              <ContentPanel 
+                selectedFile={selectedFile} 
+                isEdited={!!editedSettings[fileNameToIdMap[selectedFile] || selectedFile]}
+                onSettingsChange={handleSettingsChange}
+                onSelectFile={handleSelectFile}
+                activeTab={activeContentTab}
+                onSetActiveTab={handleSetActiveTab}
               />
-            )}
+            </div>
           </div>
-          <div className="column-resizer" onMouseDown={handleMouseDown}></div>
-          <div className="right-column">
-            <ContentPanel 
-              selectedFile={selectedFile} 
-              isEdited={!!editedSettings[fileNameToIdMap[selectedFile] || selectedFile]}
-              onSettingsChange={handleSettingsChange}
+        ) : activeWorkspaceTab === 'versions' ? (
+          <div className="full-width-content">
+            <VersionPage 
+              selectedFile={selectedFile}
               onSelectFile={handleSelectFile}
-              activeTab={activeContentTab}
-              onSetActiveTab={handleSetActiveTab}
             />
           </div>
-        </div>
-      ) : activeWorkspaceTab === 'versions' ? (
-        <div className="full-width-content">
-          <VersionPage 
-            selectedFile={selectedFile}
-            onSelectFile={handleSelectFile}
-          />
-        </div>
-      ) : (
-        <div className="full-width-content">
-          <div className="placeholder-content">
-            <h2>Actions</h2>
-            <p>Actions functionality coming soon.</p>
+        ) : activeWorkspaceTab === 'actions' ? (
+          <div className="full-width-content">
+            <div className="placeholder-content">
+              <h2>Actions</h2>
+              <p>Actions functionality coming soon.</p>
+            </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="chat-tab-content">
+            <div className="chat-panel-wrapper">
+              <div className="chat-messages">
+                <div className="message system">
+                  <p>Welcome to Tower Bot Chat. How can I help you today?</p>
+                </div>
+              </div>
+              <div className="chat-input-container">
+                <textarea 
+                  className="chat-input" 
+                  placeholder="Type your message here..." 
+                  rows={3}
+                />
+                <button className="send-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
