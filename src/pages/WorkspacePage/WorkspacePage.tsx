@@ -9,7 +9,7 @@ import { Version } from '../../data/versions';
 import SimpleSettingsTab from './tabs/SimpleSettingsTab';
 import './WorkspacePage.css';
 import './VersionPage.css';
-import { FaComment, FaCubes, FaHistory, FaPlay, FaCog, FaPencilAlt } from 'react-icons/fa';
+import { FaComment, FaCubes, FaHistory, FaPlay, FaCog, FaPencilAlt, FaSave } from 'react-icons/fa';
 
 // Define interface for edited settings
 interface EditedSettings {
@@ -141,6 +141,14 @@ const WorkspacePage = () => {
     }
   };
 
+  // Add a function to handle saving changes
+  const handleSaveChanges = () => {
+    console.log('Saving changes...');
+    // Here you would implement the actual save functionality
+    // For now, we'll just clear the edited settings
+    setEditedSettings({});
+  };
+
   // Render system selector if no system is selected
   if (!selectedSystemId) {
     return (
@@ -182,13 +190,29 @@ const WorkspacePage = () => {
               <VersionSelector 
                 onVersionSelect={handleVersionSelect}
                 onViewAllClick={handleViewAllVersions}
-                hasUnsavedChanges={hasUnsavedChanges}
               />
             </div>
           </div>
         </div>
       </div>
       
+      {hasUnsavedChanges && (
+        <div className="unsaved-changes-banner">
+          <div className="banner-content">
+            <div className="banner-message">
+              <FaPencilAlt size={14} color="#ff6b00" style={{ marginRight: '8px' }} />
+              You currently have unsaved changes
+            </div>
+            <button className="save-button" onClick={handleSaveChanges}>
+              <FaSave size={14} style={{ marginRight: '6px' }} />
+              Save Changes
+            </button>
+          </div>
+        </div>
+      )}
+      
+      
+
       {/* GitHub-style tabs */}
       <div className="workspace-tabs">
         <div 

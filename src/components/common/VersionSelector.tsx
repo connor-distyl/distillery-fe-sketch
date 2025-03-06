@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FaTag, FaCodeBranch, FaChevronDown, FaChevronUp, FaPencilAlt } from 'react-icons/fa';
+import { FaTag, FaCodeBranch, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { Version, getLatestVersion, versionHistory } from '../../data/versions';
 import './VersionSelector.css';
 
@@ -9,7 +9,7 @@ interface VersionSelectorProps {
   hasUnsavedChanges?: boolean;
 }
 
-const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onViewAllClick, hasUnsavedChanges = false }) => {
+const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onViewAllClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'tags' | 'versions'>('tags');
   const [selectedVersion, setSelectedVersion] = useState<Version>(getLatestVersion());
@@ -76,11 +76,6 @@ const VersionSelector: React.FC<VersionSelectorProps> = ({ onVersionSelect, onVi
         <FaTag className="icon" />
         <span className="version-text">
           {selectedVersion.tag || 'Latest Version'}
-          {hasUnsavedChanges && (
-            <span className="unsaved-changes-indicator" title="You have unsaved changes">
-              <FaPencilAlt size={10} color="#ff6b00" style={{ marginLeft: '6px' }} />
-            </span>
-          )}
         </span>
         {isOpen ? <FaChevronUp className="chevron" /> : <FaChevronDown className="chevron" />}
       </button>
