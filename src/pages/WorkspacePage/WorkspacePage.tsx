@@ -9,7 +9,7 @@ import { Version } from '../../data/versions';
 import SimpleSettingsTab from './tabs/SimpleSettingsTab';
 import './WorkspacePage.css';
 import './VersionPage.css';
-import { FaComment, FaCubes, FaHistory, FaPlay, FaCog, FaPencilAlt, FaSave } from 'react-icons/fa';
+import { FaComment, FaCubes, FaHistory, FaPlay, FaCog, FaPencilAlt, FaSave, FaInfoCircle } from 'react-icons/fa';
 
 // Define interface for edited settings
 interface EditedSettings {
@@ -287,6 +287,18 @@ const WorkspacePage = () => {
           </div>
         ) : activeWorkspaceTab === 'chat' ? (
           <div className="chat-tab-content">
+            {hasUnsavedChanges && (
+              <div className="info-banner">
+                <div className="info-banner-content">
+                  <div className="info-icon">
+                    <FaInfoCircle size={16} color="#e65100" />
+                  </div>
+                  <div className="info-message">
+                    You have unsaved changes. Note that you will be interacting with these changes moving forward in the conversation.
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="chat-panel-wrapper">
               <div className="chat-messages">
                 <div className="message system">

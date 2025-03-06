@@ -319,4 +319,31 @@
 
 .save-button:hover {
   background-color: #e65100; /* Darker orange on hover */
+}
+
+/* Add styles for the info banner in the chat tab */
+.info-banner {
+  background-color: #fff3e0; /* Light orange background */
+  border: 1px solid #ffcc80; /* Slightly darker orange border */
+  border-radius: 4px;
+  margin: 10px;
+  padding: 12px;
+}
+
+.info-banner-content {
+  display: flex;
+  align-items: flex-start;
+}
+
+.info-icon {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.info-message {
+  color: #e65100; /* Dark orange text */
+  font-size: 14px;
+  line-height: 1.4;
 } 
