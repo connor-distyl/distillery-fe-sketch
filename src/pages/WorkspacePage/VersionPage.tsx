@@ -23,7 +23,7 @@ import { components, componentVersionsBySystemVersion } from '../../data/version
 import './tabs/VersionTab.css';
 
 // Define the tab types
-type TabType = 'public' | 'private' | 'all' | 'tags' | 'history';
+type TabType = 'public' | 'drafts' | 'all' | 'tags' | 'history';
 
 interface VersionPageProps {
   selectedFile: string;
@@ -173,10 +173,10 @@ const VersionPage: React.FC<VersionPageProps> = ({ selectedFile }) => {
           Public
         </button>
         <button 
-          className={`tab-button ${activeTab === 'private' ? 'active' : ''}`}
-          onClick={() => setActiveTab('private')}
+          className={`tab-button ${activeTab === 'drafts' ? 'active' : ''}`}
+          onClick={() => setActiveTab('drafts')}
         >
-          Private
+          Drafts
         </button>
         <button 
           className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
@@ -202,12 +202,12 @@ const VersionPage: React.FC<VersionPageProps> = ({ selectedFile }) => {
       <div className="tab-content">
         {activeTab === 'public' && (
           <div className="version-section">
-            <h3>Public Branches</h3>
+            <h3>Public</h3>
             {renderBranchTable(publicBranches)}
           </div>
         )}
 
-        {activeTab === 'private' && (
+        {activeTab === 'drafts' && (
           <>
             <div className="version-section">
               <h3>Your Drafts</h3>
@@ -218,7 +218,7 @@ const VersionPage: React.FC<VersionPageProps> = ({ selectedFile }) => {
               )}
             </div>
             <div className="version-section">
-              <h3>All Private Drafts</h3>
+              <h3>All Drafts</h3>
               {renderBranchTable(privateBranches)}
             </div>
           </>
