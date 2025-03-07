@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import FileExplorerPanel from '../../components/FileExplorer/FileExplorerPanel';
 import ContentPanel from './ContentPanel';
 import VersionPage from './VersionPage';
+import EvaluationsPage from './EvaluationsPage';
 import SystemSelector from '../../components/SystemSelector/SystemSelector';
 import VersionSelector from '../../components/common/VersionSelector';
 import { systems } from '../../data/systems';
@@ -9,7 +10,7 @@ import { Version } from '../../data/versions';
 import SimpleSettingsTab from './tabs/SimpleSettingsTab';
 import './WorkspacePage.css';
 import './VersionPage.css';
-import { FaComment, FaHistory, FaPlay, FaCog, FaPencilAlt, FaSave, FaInfoCircle, FaFolder } from 'react-icons/fa';
+import { FaComment, FaHistory, FaPlay, FaCog, FaPencilAlt, FaSave, FaInfoCircle, FaFolder, FaClipboardCheck } from 'react-icons/fa';
 
 // Define interface for edited settings
 interface EditedSettings {
@@ -31,7 +32,7 @@ const fileNameToIdMap: Record<string, string> = {
   'Code': '14'
 };
 
-type WorkspaceTabType = 'components' | 'versions' | 'actions' | 'chat' | 'settings';
+type WorkspaceTabType = 'components' | 'versions' | 'actions' | 'chat' | 'settings' | 'evaluations';
 
 const WorkspacePage = () => {
   const [columnWidth, setColumnWidth] = useState(250);
@@ -240,6 +241,12 @@ const WorkspacePage = () => {
           <FaPlay className="tab-icon" /> Actions
         </div>
         <div 
+          className={`workspace-tab ${activeWorkspaceTab === 'evaluations' ? 'active' : ''}`}
+          onClick={() => handleWorkspaceTabChange('evaluations')}
+        >
+          <FaClipboardCheck className="tab-icon" /> Evaluations
+        </div>
+        <div 
           className={`workspace-tab ${activeWorkspaceTab === 'chat' ? 'active' : ''}`}
           onClick={() => handleWorkspaceTabChange('chat')}
         >
@@ -274,6 +281,13 @@ const WorkspacePage = () => {
         ) : activeWorkspaceTab === 'versions' ? (
           <div className="full-width-content">
             <VersionPage 
+              selectedFile={selectedFile}
+              onSelectFile={handleSelectFile}
+            />
+          </div>
+        ) : activeWorkspaceTab === 'evaluations' ? (
+          <div className="full-width-content">
+            <EvaluationsPage 
               selectedFile={selectedFile}
               onSelectFile={handleSelectFile}
             />
