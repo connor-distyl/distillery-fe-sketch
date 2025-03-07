@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaTag, FaCheck, FaEye, FaEdit, FaList, FaCodeBranch, FaStar } from 'react-icons/fa';
+import { FaTag, FaCheck, FaEye, FaEdit, FaList, FaCodeBranch, FaStar, FaChevronDown } from 'react-icons/fa';
 import { 
   Version, 
   VersionState, 
@@ -12,9 +12,11 @@ import {
 import { 
   Branch,
   publicBranches,
-  privateBranches,
+  draftBranches,
   getAllBranches,
-  getUserDraftBranches
+  getUserDraftBranches,
+  getBranchByName,
+  getDefaultBranch
 } from '../../data/branches';
 import ListView from './tabs/VersionTab/ListView';
 import TreeView from './tabs/VersionTab/TreeView';
@@ -37,6 +39,12 @@ const VersionPage: React.FC<VersionPageProps> = ({ selectedFile }) => {
   // State for view mode
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   
+  // State for selected branch in history tab
+  const [selectedBranch, setSelectedBranch] = useState<string>('');
+  
+  // State for branch selector dropdown
+  const [branchSelectorOpen, setBranchSelectorOpen] = useState<boolean>(false);
+  
   // Get current version for the selected file
   const currentVersion = getCurrentVersion(selectedFile);
 
@@ -51,12 +59,47 @@ const VersionPage: React.FC<VersionPageProps> = ({ selectedFile }) => {
 
   // Get all branches
   const allBranches = getAllBranches();
+  
+  // Get unique branch names
+  const branchNames = getUniqueBranches();
+  
+  // Set default selected branch if not already set
+  React.useEffect(() => {
+    if (!selectedBranch && branchNames.length > 0) {
+      const defaultBranch = getDefaultBranch();
+      setSelectedBranch(defaultBranch?.name || branchNames[0]);
+    }
+  }, [selectedBranch, branchNames]);
 
-  const taggedVersions: Version[] = versionHistory.map(version => ({
-    ...version,
-    tag: version.tag || `${version.branch}-${version.id}`,
-    state: 'Public' as VersionState
-  }));
+  // Get versions with explicit tags only
+  const taggedVersions: Version[] = versionHistory.filter(version => 
+    version.tag && version.tag.trim() !== ''
+  );
+  
+  // Get branch-specific history
+  const getBranchHistory = (branchName: string): Version[] => {
+    // Get versions directly in this branch
+    const branchVersions = versionHistory.filter(version => version.branch === branchName);
+    
+    // Find the branch object
+    const branch = getBranchByName(branchName);
+    if (!branch) return branchVersions;
+    
+    // Get parent branch versions if needed
+    // This is a simplified approach - in a real app, you'd need to traverse the full branch hierarchy
+    const parentBranchName = branchName.split('/')[0]; // Simple parent extraction
+    if (parentBranchName && parentBranchName !== branchName) {
+      const parentVersions = versionHistory.filter(version => 
+        version.branch === parentBranchName
+      );
+      return [...branchVersions, ...parentVersions];
+    }
+    
+    return branchVersions;
+  };
+  
+  // Get history for selected branch
+  const branchHistory = selectedBranch ? getBranchHistory(selectedBranch) : [];
 
   // Function to render state badge
   const renderStateBadge = (state: VersionState) => {
@@ -66,7 +109,7 @@ const VersionPage: React.FC<VersionPageProps> = ({ selectedFile }) => {
       case 'In Review':
         return <span className="state-badge review"><FaEye /> In Review</span>;
       case 'Public':
-        return <span className="state-badge published"><FaCheck /> Pubilc</span>;
+        return <span className="state-badge published"><FaCheck /> Public</span>;
       default:
         return null;
     }
@@ -158,6 +201,38 @@ const VersionPage: React.FC<VersionPageProps> = ({ selectedFile }) => {
       </div>
     );
   };
+  
+  // Render branch selector
+  const renderBranchSelector = () => {
+    return (
+      <div className="branch-selector">
+        <div 
+          className="branch-selector-header" 
+          onClick={() => setBranchSelectorOpen(!branchSelectorOpen)}
+        >
+          <span>Branch: {selectedBranch}</span>
+          <FaChevronDown className={`branch-selector-icon ${branchSelectorOpen ? 'open' : ''}`} />
+        </div>
+        {branchSelectorOpen && (
+          <div className="branch-selector-dropdown">
+            {branchNames.map((branch, index) => (
+              <div 
+                key={index} 
+                className={`branch-selector-item ${branch === selectedBranch ? 'active' : ''}`}
+                onClick={() => {
+                  setSelectedBranch(branch);
+                  setBranchSelectorOpen(false);
+                }}
+              >
+                {branch}
+                {branch === selectedBranch && <FaCheck className="branch-selected-icon" />}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   // Get unique branches
   const branches = getUniqueBranches();
@@ -219,14 +294,14 @@ const VersionPage: React.FC<VersionPageProps> = ({ selectedFile }) => {
             </div>
             <div className="version-section">
               <h3>All Drafts</h3>
-              {renderBranchTable(privateBranches)}
+              {renderBranchTable(draftBranches)}
             </div>
           </>
         )}
 
         {activeTab === 'all' && (
           <div className="version-section">
-            <h3>All Branches</h3>
+            <h3>All</h3>
             {renderBranchTable(allBranches)}
           </div>
         )}
@@ -234,16 +309,23 @@ const VersionPage: React.FC<VersionPageProps> = ({ selectedFile }) => {
         {activeTab === 'tags' && (
           <div className="version-section">
             <h3>Tagged Versions</h3>
-            <ListView 
-              versions={taggedVersions} 
-              renderStateBadge={renderStateBadge}
-              renderUserAvatar={renderUserAvatar}
-            />
+            {taggedVersions.length > 0 ? (
+              <ListView 
+                versions={taggedVersions} 
+                renderStateBadge={renderStateBadge}
+                renderUserAvatar={renderUserAvatar}
+              />
+            ) : (
+              <p className="no-tags-message">No tagged versions found.</p>
+            )}
           </div>
         )}
 
         {activeTab === 'history' && (
           <>
+            {/* Branch selector */}
+            {renderBranchSelector()}
+            
             {/* View mode toggle */}
             <div className="view-mode-toggle">
               <button 
@@ -300,14 +382,18 @@ const VersionPage: React.FC<VersionPageProps> = ({ selectedFile }) => {
                   </table>
                 </div>
 
-                {/* Version history */}
+                {/* Branch history */}
                 <div className="version-section">
-                  <h3>Version History</h3>
-                  <ListView 
-                    versions={versionHistory} 
-                    renderStateBadge={renderStateBadge}
-                    renderUserAvatar={renderUserAvatar}
-                  />
+                  <h3>Branch History: {selectedBranch}</h3>
+                  {branchHistory.length > 0 ? (
+                    <ListView 
+                      versions={branchHistory} 
+                      renderStateBadge={renderStateBadge}
+                      renderUserAvatar={renderUserAvatar}
+                    />
+                  ) : (
+                    <p className="no-history-message">No history found for this branch.</p>
+                  )}
                 </div>
 
                 {/* Component versions - only shown for system files */}
@@ -315,7 +401,7 @@ const VersionPage: React.FC<VersionPageProps> = ({ selectedFile }) => {
                   <div className="version-section">
                     <h3>Component Versions</h3>
                     <ComponentVersions 
-                      versions={versionHistory}
+                      versions={branchHistory}
                       components={components}
                       getComponentVersionData={getComponentVersionData}
                       renderUserAvatar={renderUserAvatar}

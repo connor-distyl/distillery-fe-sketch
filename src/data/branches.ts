@@ -49,8 +49,8 @@ export const publicBranches: Branch[] = [
   }
 ];
 
-// Private branches data
-export const privateBranches: Branch[] = [
+// Draft branches data
+export const draftBranches: Branch[] = [
   { 
     name: 'R3.27/20250322-Genedit-01', 
     lastEdited: '2025-03-22', 
@@ -129,12 +129,12 @@ export const historicalBranches: Branch[] = [
 
 // Get all branches
 export const getAllBranches = (): Branch[] => {
-  return [...publicBranches, ...privateBranches, ...historicalBranches];
+  return [...publicBranches, ...draftBranches, ...historicalBranches];
 };
 
 // Get user's draft branches
 export const getUserDraftBranches = (username: string): Branch[] => {
-  return privateBranches.filter(branch => branch.owner === username);
+  return draftBranches.filter(branch => branch.owner === username);
 };
 
 // Get branch by name

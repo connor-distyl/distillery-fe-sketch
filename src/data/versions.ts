@@ -169,13 +169,13 @@ export const versions: Version[] = [
 export const versionHistory: Version[] = [
   {
     id: 'v1.0.0',
-    tag: 'latest R3.27-1.0.0',
+    tag: 'R3.27-1.0.0',
     name: 'Tower Bot',
     date: '2023-03-01',
     user: 'John Doe',
     userInitials: 'JD',
     message: 'Updated content structure',
-    state: 'Published',
+    state: 'Public',
     parentId: 'v0.9.0',
     branch: 'main',
     commitHash: 'a7e8f9c0'
