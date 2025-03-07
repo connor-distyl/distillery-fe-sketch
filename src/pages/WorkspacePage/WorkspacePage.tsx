@@ -9,7 +9,7 @@ import { Version } from '../../data/versions';
 import SimpleSettingsTab from './tabs/SimpleSettingsTab';
 import './WorkspacePage.css';
 import './VersionPage.css';
-import { FaComment, FaCubes, FaHistory, FaPlay, FaCog, FaPencilAlt, FaSave, FaInfoCircle } from 'react-icons/fa';
+import { FaComment, FaHistory, FaPlay, FaCog, FaPencilAlt, FaSave, FaInfoCircle, FaFolder } from 'react-icons/fa';
 
 // Define interface for edited settings
 interface EditedSettings {
@@ -219,7 +219,7 @@ const WorkspacePage = () => {
           className={`workspace-tab ${activeWorkspaceTab === 'components' ? 'active' : ''}`}
           onClick={() => handleWorkspaceTabChange('components')}
         >
-          <FaCubes className="tab-icon" /> Components
+          <FaFolder className="tab-icon" /> Explorer
         </div>
         <div 
           className={`workspace-tab ${activeWorkspaceTab === 'versions' ? 'active' : ''}`}
