@@ -55,7 +55,7 @@ const VersionPage: React.FC<VersionPageProps> = ({ selectedFile }) => {
   const taggedVersions: Version[] = versionHistory.map(version => ({
     ...version,
     tag: version.tag || `${version.branch}-${version.id}`,
-    state: 'Published' as VersionState
+    state: 'Public' as VersionState
   }));
 
   // Function to render state badge
@@ -65,8 +65,8 @@ const VersionPage: React.FC<VersionPageProps> = ({ selectedFile }) => {
         return <span className="state-badge draft"><FaEdit /> Draft</span>;
       case 'In Review':
         return <span className="state-badge review"><FaEye /> In Review</span>;
-      case 'Published':
-        return <span className="state-badge published"><FaCheck /> Published</span>;
+      case 'Public':
+        return <span className="state-badge published"><FaCheck /> Pubilc</span>;
       default:
         return null;
     }

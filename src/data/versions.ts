@@ -1,5 +1,5 @@
 // Define types for version data
-export type VersionState = 'Draft' | 'In Review' | 'Published';
+export type VersionState = 'Draft' | 'In Review' | 'Public';
 
 // View mode type
 export type ViewMode = 'list' | 'tree';

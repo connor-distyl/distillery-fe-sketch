@@ -20,7 +20,7 @@ export const publicBranches: Branch[] = [
     lastEditedBy: 'System Admin', 
     userInitials: 'SA',
     message: 'Latest production release', 
-    state: 'Published',
+    state: 'Public',
     isDefault: true
   },
   { 
@@ -29,15 +29,15 @@ export const publicBranches: Branch[] = [
     lastEditedBy: 'John Doe', 
     userInitials: 'JD',
     message: 'Release candidate for 3.27', 
-    state: 'Published' 
+    state: 'Public' 
   },
   { 
-    name: 'R3.313', 
+    name: 'R3.13', 
     lastEdited: '2025-03-15', 
     lastEditedBy: 'Jane Smith', 
     userInitials: 'JS',
-    message: 'Hotfix for 3.313', 
-    state: 'Published' 
+    message: 'Hotfix for 3.13', 
+    state: 'Public' 
   },
   { 
     name: 'R4.27', 
@@ -115,7 +115,7 @@ export const historicalBranches: Branch[] = [
     lastEditedBy: 'System Admin', 
     userInitials: 'SA',
     message: 'Previous release version', 
-    state: 'Published' 
+    state: 'Public' 
   },
   { 
     name: 'R3.25', 
@@ -123,7 +123,7 @@ export const historicalBranches: Branch[] = [
     lastEditedBy: 'System Admin', 
     userInitials: 'SA',
     message: 'Stable release', 
-    state: 'Published' 
+    state: 'Public' 
   }
 ];
 
