@@ -548,4 +548,91 @@
   top: 0;
   z-index: 1;
   background-color: #fff;
+}
+
+/* Tab navigation */
+.version-tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: #555;
+  transition: all 0.2s ease;
+  margin-right: 5px;
+}
+
+.tab-button:hover {
+  color: #1890ff;
+}
+
+.tab-button.active {
+  color: #1890ff;
+  border-bottom-color: #1890ff;
+  font-weight: 500;
+}
+
+.tab-content {
+  padding: 10px 0;
+}
+
+/* Branch table styling */
+.branch-table-container {
+  max-height: 500px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+/* Default indicator styling */
+.default-indicator {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  padding: 2px 6px;
+  background-color: #faad14;
+  color: white;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.default-indicator svg {
+  margin-right: 4px;
+  font-size: 0.8rem;
+}
+
+/* Promote button styling */
+.promote-button {
+  padding: 4px 10px;
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.promote-button:hover {
+  background-color: #096dd9;
+}
+
+/* No drafts message */
+.no-drafts-message {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  border: 1px dashed #ddd;
 } 
